@@ -45,7 +45,7 @@ type SceneService interface {
 	AddOne(ctx context.Context, in *ReqSceneAdd, opts ...client.CallOption) (*ReplySceneOne, error)
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplySceneOne, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
-	GetList(ctx context.Context, in *ReqSceneList, opts ...client.CallOption) (*ReplySceneList, error)
+	GetList(ctx context.Context, in *ReqScenePage, opts ...client.CallOption) (*ReplySceneList, error)
 	UpdateBase(ctx context.Context, in *ReqSceneUpdate, opts ...client.CallOption) (*ReplySceneOne, error)
 	UpdateStatus(ctx context.Context, in *ReqSceneStatus, opts ...client.CallOption) (*ReplySceneOne, error)
 	AppendMember(ctx context.Context, in *ReqSceneMember, opts ...client.CallOption) (*ReplySceneMembers, error)
@@ -94,7 +94,7 @@ func (c *sceneService) RemoveOne(ctx context.Context, in *RequestInfo, opts ...c
 	return out, nil
 }
 
-func (c *sceneService) GetList(ctx context.Context, in *ReqSceneList, opts ...client.CallOption) (*ReplySceneList, error) {
+func (c *sceneService) GetList(ctx context.Context, in *ReqScenePage, opts ...client.CallOption) (*ReplySceneList, error) {
 	req := c.c.NewRequest(c.name, "SceneService.GetList", in)
 	out := new(ReplySceneList)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -150,7 +150,7 @@ type SceneServiceHandler interface {
 	AddOne(context.Context, *ReqSceneAdd, *ReplySceneOne) error
 	GetOne(context.Context, *RequestInfo, *ReplySceneOne) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
-	GetList(context.Context, *ReqSceneList, *ReplySceneList) error
+	GetList(context.Context, *ReqScenePage, *ReplySceneList) error
 	UpdateBase(context.Context, *ReqSceneUpdate, *ReplySceneOne) error
 	UpdateStatus(context.Context, *ReqSceneStatus, *ReplySceneOne) error
 	AppendMember(context.Context, *ReqSceneMember, *ReplySceneMembers) error
@@ -162,7 +162,7 @@ func RegisterSceneServiceHandler(s server.Server, hdlr SceneServiceHandler, opts
 		AddOne(ctx context.Context, in *ReqSceneAdd, out *ReplySceneOne) error
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplySceneOne) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
-		GetList(ctx context.Context, in *ReqSceneList, out *ReplySceneList) error
+		GetList(ctx context.Context, in *ReqScenePage, out *ReplySceneList) error
 		UpdateBase(ctx context.Context, in *ReqSceneUpdate, out *ReplySceneOne) error
 		UpdateStatus(ctx context.Context, in *ReqSceneStatus, out *ReplySceneOne) error
 		AppendMember(ctx context.Context, in *ReqSceneMember, out *ReplySceneMembers) error
@@ -191,7 +191,7 @@ func (h *sceneServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo, ou
 	return h.SceneServiceHandler.RemoveOne(ctx, in, out)
 }
 
-func (h *sceneServiceHandler) GetList(ctx context.Context, in *ReqSceneList, out *ReplySceneList) error {
+func (h *sceneServiceHandler) GetList(ctx context.Context, in *ReqScenePage, out *ReplySceneList) error {
 	return h.SceneServiceHandler.GetList(ctx, in, out)
 }
 

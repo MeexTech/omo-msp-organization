@@ -7,7 +7,7 @@ service SceneService {
   rpc AddOne(ReqSceneAdd) returns (ReplySceneOne) {}
   rpc GetOne(RequestInfo) returns (ReplySceneOne) {}
   rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
-  rpc GetList(ReqSceneList) returns (ReplySceneList) {}
+  rpc GetList(ReqScenePage) returns (ReplySceneList) {}
   rpc UpdateBase(ReqSceneUpdate) returns (ReplySceneOne) {}
   rpc UpdateStatus(ReqSceneStatus) returns (ReplySceneOne) {}
   rpc AppendMember(ReqSceneMember) returns (ReplySceneMembers) {}
@@ -26,7 +26,9 @@ message SceneInfo {
   string master = 9;
   string remark = 10;
   string location = 11;
-  repeated string members = 12;
+  string creator = 12;
+  string operator = 13;
+  repeated string members = 14;
 }
 
 enum ResultStatus {
@@ -40,6 +42,7 @@ enum ResultStatus {
 
 message RequestInfo {
   string uid = 1;
+  string operator = 2;
 }
 
 message ReplyInfo {
@@ -54,6 +57,7 @@ message ReqSceneAdd{
   string master = 4;
   string remark = 5;
   string location = 6;
+  string operator = 7;
 }
 
 message ReplySceneOne{
@@ -61,12 +65,14 @@ message ReplySceneOne{
   ResultStatus status = 2;
 }
 
-message ReqSceneList{
-  repeated string list = 1;
+message ReqScenePage{
+  int32 number = 1;
+  int32 page = 2;
 }
 
 message ReplySceneList{
-  repeated SceneInfo list = 1;
+  int32 page = 1;
+  repeated SceneInfo list = 2;
 }
 
 message ReqSceneUpdate{
@@ -76,16 +82,19 @@ message ReqSceneUpdate{
   string remark = 4;
   string location = 5;
   string master = 6;
+  string operator = 7;
 }
 
 message ReqSceneStatus{
   string uid = 1;
   int32 status = 2;
+  string operator = 3;
 }
 
 message ReqSceneMember {
   string uid = 1;
   string member = 2;
+  string operator = 3;
 }
 
 message ReplySceneMembers {
