@@ -66,14 +66,14 @@ message ReplySceneOne{
 }
 
 message ReqScenePage{
-  int32 number = 1;
-  int32 page = 2;
+  uint32 number = 1;
+  uint32 page = 2;
 }
 
 message ReplySceneList{
-  int32 total = 1;
-  int32 pageMax = 2;
-  int32 pageNow = 3;
+  uint32 total = 1;
+  uint32 pageMax = 2;
+  uint32 pageNow = 3;
   repeated SceneInfo list = 4;
 }
 
