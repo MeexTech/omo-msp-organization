@@ -6,6 +6,7 @@ option go_package= "proto/organization";
 service SceneService {
   rpc AddOne(ReqSceneAdd) returns (ReplySceneOne) {}
   rpc GetOne(RequestInfo) returns (ReplySceneOne) {}
+  rpc GetOneByMaster(RequestInfo) returns (ReplySceneOne) {}
   rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
   rpc IsMasterUsed(RequestInfo) returns (ReplyMasterUsed) {}
   rpc GetList(ReqScenePage) returns (ReplySceneList) {}

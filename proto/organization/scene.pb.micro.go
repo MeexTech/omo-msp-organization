@@ -44,6 +44,7 @@ func NewSceneServiceEndpoints() []*api.Endpoint {
 type SceneService interface {
 	AddOne(ctx context.Context, in *ReqSceneAdd, opts ...client.CallOption) (*ReplySceneOne, error)
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplySceneOne, error)
+	GetOneByMaster(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplySceneOne, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	IsMasterUsed(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyMasterUsed, error)
 	GetList(ctx context.Context, in *ReqScenePage, opts ...client.CallOption) (*ReplySceneList, error)
@@ -77,6 +78,16 @@ func (c *sceneService) AddOne(ctx context.Context, in *ReqSceneAdd, opts ...clie
 
 func (c *sceneService) GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplySceneOne, error) {
 	req := c.c.NewRequest(c.name, "SceneService.GetOne", in)
+	out := new(ReplySceneOne)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sceneService) GetOneByMaster(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplySceneOne, error) {
+	req := c.c.NewRequest(c.name, "SceneService.GetOneByMaster", in)
 	out := new(ReplySceneOne)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -160,6 +171,7 @@ func (c *sceneService) SubtractMember(ctx context.Context, in *ReqSceneMember, o
 type SceneServiceHandler interface {
 	AddOne(context.Context, *ReqSceneAdd, *ReplySceneOne) error
 	GetOne(context.Context, *RequestInfo, *ReplySceneOne) error
+	GetOneByMaster(context.Context, *RequestInfo, *ReplySceneOne) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	IsMasterUsed(context.Context, *RequestInfo, *ReplyMasterUsed) error
 	GetList(context.Context, *ReqScenePage, *ReplySceneList) error
@@ -173,6 +185,7 @@ func RegisterSceneServiceHandler(s server.Server, hdlr SceneServiceHandler, opts
 	type sceneService interface {
 		AddOne(ctx context.Context, in *ReqSceneAdd, out *ReplySceneOne) error
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplySceneOne) error
+		GetOneByMaster(ctx context.Context, in *RequestInfo, out *ReplySceneOne) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		IsMasterUsed(ctx context.Context, in *RequestInfo, out *ReplyMasterUsed) error
 		GetList(ctx context.Context, in *ReqScenePage, out *ReplySceneList) error
@@ -198,6 +211,10 @@ func (h *sceneServiceHandler) AddOne(ctx context.Context, in *ReqSceneAdd, out *
 
 func (h *sceneServiceHandler) GetOne(ctx context.Context, in *RequestInfo, out *ReplySceneOne) error {
 	return h.SceneServiceHandler.GetOne(ctx, in, out)
+}
+
+func (h *sceneServiceHandler) GetOneByMaster(ctx context.Context, in *RequestInfo, out *ReplySceneOne) error {
+	return h.SceneServiceHandler.GetOneByMaster(ctx, in, out)
 }
 
 func (h *sceneServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error {
