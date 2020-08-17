@@ -28,9 +28,10 @@ message SceneInfo {
   string master = 9;
   string remark = 10;
   string location = 11;
-  string creator = 12;
-  string operator = 13;
-  repeated string members = 14;
+  string entity = 12;
+  string creator = 13;
+  string operator = 14;
+  repeated string members = 15;
 }
 
 enum ResultStatus {
@@ -59,7 +60,8 @@ message ReqSceneAdd{
   string master = 4;
   string remark = 5;
   string location = 6;
-  string operator = 7;
+  string entity = 7;
+  string operator = 8;
 }
 
 message ReplySceneOne{
