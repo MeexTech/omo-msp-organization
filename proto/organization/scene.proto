@@ -48,9 +48,14 @@ message RequestInfo {
   string operator = 2;
 }
 
+message ReplyStatus {
+  uint32 code = 1;
+  string error = 2;
+}
+
 message ReplyInfo {
   string uid = 1;
-  ResultStatus status = 2;
+  ReplyStatus status = 2;
 }
 
 message ReqSceneAdd{
@@ -66,7 +71,7 @@ message ReqSceneAdd{
 
 message ReplySceneOne{
   SceneInfo info = 1;
-  ResultStatus status = 2;
+  ReplyStatus status = 2;
 }
 
 message ReqScenePage{
@@ -79,6 +84,7 @@ message ReplySceneList{
   uint32 pageMax = 2;
   uint32 pageNow = 3;
   repeated SceneInfo list = 4;
+  ReplyStatus status = 5;
 }
 
 message ReqSceneUpdate{
@@ -94,6 +100,7 @@ message ReqSceneUpdate{
 message ReplyMasterUsed {
   string master = 1;
   bool used = 2;
+  ReplyStatus status = 3;
 }
 
 message ReqSceneStatus{
@@ -111,5 +118,5 @@ message ReqSceneMember {
 message ReplySceneMembers {
   string uid = 1;
   repeated string members = 2;
-  ResultStatus status = 3;
+  ReplyStatus status = 3;
 }
