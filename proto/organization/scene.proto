@@ -32,10 +32,15 @@ message SceneInfo {
   string entity = 12;
   string creator = 13;
   string operator = 14;
-  string country = 16;
-  string city = 17;
-  string zone = 18;
+  AddressInfo address = 16;
   repeated string members = 15;
+}
+
+message AddressInfo {
+  string country = 1;
+  string province = 2;
+  string city = 3;
+  string zone = 4;
 }
 
 enum ResultStatus {
@@ -104,8 +109,10 @@ message ReqSceneUpdate{
 message ReqSceneAddress{
   string uid = 1;
   string country = 2;
-  string city = 3;
-  string zone = 4;
+  string province = 3;
+  string city = 4;
+  string zone = 5;
+  string operator = 6;
 }
 
 message ReplyMasterUsed {
