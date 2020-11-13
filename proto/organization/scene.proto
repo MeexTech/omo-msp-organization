@@ -12,6 +12,7 @@ service SceneService {
   rpc GetList(ReqScenePage) returns (ReplySceneList) {}
   rpc UpdateBase(ReqSceneUpdate) returns (ReplySceneOne) {}
   rpc UpdateStatus(ReqSceneStatus) returns (ReplySceneOne) {}
+  rpc UpdateAddress(ReqSceneAddress) returns (ReplySceneOne) {}
   rpc AppendMember(ReqSceneMember) returns (ReplySceneMembers) {}
   rpc SubtractMember(ReqSceneMember) returns (ReplySceneMembers) {}
 }
@@ -31,6 +32,9 @@ message SceneInfo {
   string entity = 12;
   string creator = 13;
   string operator = 14;
+  string country = 16;
+  string city = 17;
+  string zone = 18;
   repeated string members = 15;
 }
 
@@ -95,6 +99,13 @@ message ReqSceneUpdate{
   string location = 5;
   string master = 6;
   string operator = 7;
+}
+
+message ReqSceneAddress{
+  string uid = 1;
+  string country = 2;
+  string city = 3;
+  string zone = 4;
 }
 
 message ReplyMasterUsed {

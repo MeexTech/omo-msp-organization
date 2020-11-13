@@ -50,6 +50,7 @@ type SceneService interface {
 	GetList(ctx context.Context, in *ReqScenePage, opts ...client.CallOption) (*ReplySceneList, error)
 	UpdateBase(ctx context.Context, in *ReqSceneUpdate, opts ...client.CallOption) (*ReplySceneOne, error)
 	UpdateStatus(ctx context.Context, in *ReqSceneStatus, opts ...client.CallOption) (*ReplySceneOne, error)
+	UpdateAddress(ctx context.Context, in *ReqSceneAddress, opts ...client.CallOption) (*ReplySceneOne, error)
 	AppendMember(ctx context.Context, in *ReqSceneMember, opts ...client.CallOption) (*ReplySceneMembers, error)
 	SubtractMember(ctx context.Context, in *ReqSceneMember, opts ...client.CallOption) (*ReplySceneMembers, error)
 }
@@ -146,6 +147,16 @@ func (c *sceneService) UpdateStatus(ctx context.Context, in *ReqSceneStatus, opt
 	return out, nil
 }
 
+func (c *sceneService) UpdateAddress(ctx context.Context, in *ReqSceneAddress, opts ...client.CallOption) (*ReplySceneOne, error) {
+	req := c.c.NewRequest(c.name, "SceneService.UpdateAddress", in)
+	out := new(ReplySceneOne)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *sceneService) AppendMember(ctx context.Context, in *ReqSceneMember, opts ...client.CallOption) (*ReplySceneMembers, error) {
 	req := c.c.NewRequest(c.name, "SceneService.AppendMember", in)
 	out := new(ReplySceneMembers)
@@ -177,6 +188,7 @@ type SceneServiceHandler interface {
 	GetList(context.Context, *ReqScenePage, *ReplySceneList) error
 	UpdateBase(context.Context, *ReqSceneUpdate, *ReplySceneOne) error
 	UpdateStatus(context.Context, *ReqSceneStatus, *ReplySceneOne) error
+	UpdateAddress(context.Context, *ReqSceneAddress, *ReplySceneOne) error
 	AppendMember(context.Context, *ReqSceneMember, *ReplySceneMembers) error
 	SubtractMember(context.Context, *ReqSceneMember, *ReplySceneMembers) error
 }
@@ -191,6 +203,7 @@ func RegisterSceneServiceHandler(s server.Server, hdlr SceneServiceHandler, opts
 		GetList(ctx context.Context, in *ReqScenePage, out *ReplySceneList) error
 		UpdateBase(ctx context.Context, in *ReqSceneUpdate, out *ReplySceneOne) error
 		UpdateStatus(ctx context.Context, in *ReqSceneStatus, out *ReplySceneOne) error
+		UpdateAddress(ctx context.Context, in *ReqSceneAddress, out *ReplySceneOne) error
 		AppendMember(ctx context.Context, in *ReqSceneMember, out *ReplySceneMembers) error
 		SubtractMember(ctx context.Context, in *ReqSceneMember, out *ReplySceneMembers) error
 	}
@@ -235,6 +248,10 @@ func (h *sceneServiceHandler) UpdateBase(ctx context.Context, in *ReqSceneUpdate
 
 func (h *sceneServiceHandler) UpdateStatus(ctx context.Context, in *ReqSceneStatus, out *ReplySceneOne) error {
 	return h.SceneServiceHandler.UpdateStatus(ctx, in, out)
+}
+
+func (h *sceneServiceHandler) UpdateAddress(ctx context.Context, in *ReqSceneAddress, out *ReplySceneOne) error {
+	return h.SceneServiceHandler.UpdateAddress(ctx, in, out)
 }
 
 func (h *sceneServiceHandler) AppendMember(ctx context.Context, in *ReqSceneMember, out *ReplySceneMembers) error {
