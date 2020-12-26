@@ -47,6 +47,7 @@ message ReqGroupAdd {
   string location = 6;
   string contact = 8;
   string operator = 9;
+  AddressInfo address = 10;
 }
 
 message ReqGroupUpdate{
