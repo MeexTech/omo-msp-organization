@@ -48,7 +48,8 @@ message RequestAddress{
   string province = 3;
   string city = 4;
   string zone = 5;
-  string operator = 6;
+  string location = 6;
+  string operator = 7;
 }
 
 message RequestFlag{
