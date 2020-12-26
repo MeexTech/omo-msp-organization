@@ -11,10 +11,10 @@ service SceneService {
   rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
   rpc IsMasterUsed(RequestInfo) returns (ReplyMasterUsed) {}
   rpc GetList(RequestPage) returns (ReplySceneList) {}
-  rpc UpdateBase(ReqSceneUpdate) returns (ReplySceneOne) {}
-  rpc UpdateStatus(ReqSceneStatus) returns (ReplySceneOne) {}
+  rpc UpdateBase(ReqSceneUpdate) returns (ReplyInfo) {}
+  rpc UpdateStatus(ReqSceneStatus) returns (ReplyInfo) {}
   rpc UpdateAddress(RequestAddress) returns (ReplySceneOne) {}
-  rpc UpdateLocation(RequestLocation) returns (ReplySceneOne) {}
+  rpc UpdateLocation(RequestFlag) returns (ReplyInfo) {}
   rpc AppendMember(RequestMember) returns (ReplyMembers) {}
   rpc SubtractMember(RequestMember) returns (ReplyMembers) {}
 }

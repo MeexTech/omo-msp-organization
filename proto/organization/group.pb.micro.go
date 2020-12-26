@@ -38,10 +38,11 @@ type GroupService interface {
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGroupOne, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetList(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyGroupList, error)
-	UpdateBase(ctx context.Context, in *ReqGroupUpdate, opts ...client.CallOption) (*ReplyGroupOne, error)
-	UpdateMaster(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGroupOne, error)
-	UpdateAssistant(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGroupOne, error)
-	UpdateLocation(ctx context.Context, in *RequestLocation, opts ...client.CallOption) (*ReplyGroupOne, error)
+	UpdateBase(ctx context.Context, in *ReqGroupUpdate, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateMaster(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateAssistant(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateContact(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateLocation(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateAddress(ctx context.Context, in *RequestAddress, opts ...client.CallOption) (*ReplyGroupOne, error)
 	AppendMember(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyMembers, error)
 	SubtractMember(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyMembers, error)
@@ -99,9 +100,9 @@ func (c *groupService) GetList(ctx context.Context, in *RequestPage, opts ...cli
 	return out, nil
 }
 
-func (c *groupService) UpdateBase(ctx context.Context, in *ReqGroupUpdate, opts ...client.CallOption) (*ReplyGroupOne, error) {
+func (c *groupService) UpdateBase(ctx context.Context, in *ReqGroupUpdate, opts ...client.CallOption) (*ReplyInfo, error) {
 	req := c.c.NewRequest(c.name, "GroupService.UpdateBase", in)
-	out := new(ReplyGroupOne)
+	out := new(ReplyInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -109,9 +110,9 @@ func (c *groupService) UpdateBase(ctx context.Context, in *ReqGroupUpdate, opts 
 	return out, nil
 }
 
-func (c *groupService) UpdateMaster(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGroupOne, error) {
+func (c *groupService) UpdateMaster(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error) {
 	req := c.c.NewRequest(c.name, "GroupService.UpdateMaster", in)
-	out := new(ReplyGroupOne)
+	out := new(ReplyInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -119,9 +120,9 @@ func (c *groupService) UpdateMaster(ctx context.Context, in *RequestInfo, opts .
 	return out, nil
 }
 
-func (c *groupService) UpdateAssistant(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGroupOne, error) {
+func (c *groupService) UpdateAssistant(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error) {
 	req := c.c.NewRequest(c.name, "GroupService.UpdateAssistant", in)
-	out := new(ReplyGroupOne)
+	out := new(ReplyInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -129,9 +130,19 @@ func (c *groupService) UpdateAssistant(ctx context.Context, in *RequestInfo, opt
 	return out, nil
 }
 
-func (c *groupService) UpdateLocation(ctx context.Context, in *RequestLocation, opts ...client.CallOption) (*ReplyGroupOne, error) {
+func (c *groupService) UpdateContact(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "GroupService.UpdateContact", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *groupService) UpdateLocation(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error) {
 	req := c.c.NewRequest(c.name, "GroupService.UpdateLocation", in)
-	out := new(ReplyGroupOne)
+	out := new(ReplyInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -176,10 +187,11 @@ type GroupServiceHandler interface {
 	GetOne(context.Context, *RequestInfo, *ReplyGroupOne) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetList(context.Context, *RequestPage, *ReplyGroupList) error
-	UpdateBase(context.Context, *ReqGroupUpdate, *ReplyGroupOne) error
-	UpdateMaster(context.Context, *RequestInfo, *ReplyGroupOne) error
-	UpdateAssistant(context.Context, *RequestInfo, *ReplyGroupOne) error
-	UpdateLocation(context.Context, *RequestLocation, *ReplyGroupOne) error
+	UpdateBase(context.Context, *ReqGroupUpdate, *ReplyInfo) error
+	UpdateMaster(context.Context, *RequestFlag, *ReplyInfo) error
+	UpdateAssistant(context.Context, *RequestFlag, *ReplyInfo) error
+	UpdateContact(context.Context, *RequestFlag, *ReplyInfo) error
+	UpdateLocation(context.Context, *RequestFlag, *ReplyInfo) error
 	UpdateAddress(context.Context, *RequestAddress, *ReplyGroupOne) error
 	AppendMember(context.Context, *RequestMember, *ReplyMembers) error
 	SubtractMember(context.Context, *RequestMember, *ReplyMembers) error
@@ -191,10 +203,11 @@ func RegisterGroupServiceHandler(s server.Server, hdlr GroupServiceHandler, opts
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyGroupOne) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetList(ctx context.Context, in *RequestPage, out *ReplyGroupList) error
-		UpdateBase(ctx context.Context, in *ReqGroupUpdate, out *ReplyGroupOne) error
-		UpdateMaster(ctx context.Context, in *RequestInfo, out *ReplyGroupOne) error
-		UpdateAssistant(ctx context.Context, in *RequestInfo, out *ReplyGroupOne) error
-		UpdateLocation(ctx context.Context, in *RequestLocation, out *ReplyGroupOne) error
+		UpdateBase(ctx context.Context, in *ReqGroupUpdate, out *ReplyInfo) error
+		UpdateMaster(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
+		UpdateAssistant(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
+		UpdateContact(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
+		UpdateLocation(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
 		UpdateAddress(ctx context.Context, in *RequestAddress, out *ReplyGroupOne) error
 		AppendMember(ctx context.Context, in *RequestMember, out *ReplyMembers) error
 		SubtractMember(ctx context.Context, in *RequestMember, out *ReplyMembers) error
@@ -226,19 +239,23 @@ func (h *groupServiceHandler) GetList(ctx context.Context, in *RequestPage, out 
 	return h.GroupServiceHandler.GetList(ctx, in, out)
 }
 
-func (h *groupServiceHandler) UpdateBase(ctx context.Context, in *ReqGroupUpdate, out *ReplyGroupOne) error {
+func (h *groupServiceHandler) UpdateBase(ctx context.Context, in *ReqGroupUpdate, out *ReplyInfo) error {
 	return h.GroupServiceHandler.UpdateBase(ctx, in, out)
 }
 
-func (h *groupServiceHandler) UpdateMaster(ctx context.Context, in *RequestInfo, out *ReplyGroupOne) error {
+func (h *groupServiceHandler) UpdateMaster(ctx context.Context, in *RequestFlag, out *ReplyInfo) error {
 	return h.GroupServiceHandler.UpdateMaster(ctx, in, out)
 }
 
-func (h *groupServiceHandler) UpdateAssistant(ctx context.Context, in *RequestInfo, out *ReplyGroupOne) error {
+func (h *groupServiceHandler) UpdateAssistant(ctx context.Context, in *RequestFlag, out *ReplyInfo) error {
 	return h.GroupServiceHandler.UpdateAssistant(ctx, in, out)
 }
 
-func (h *groupServiceHandler) UpdateLocation(ctx context.Context, in *RequestLocation, out *ReplyGroupOne) error {
+func (h *groupServiceHandler) UpdateContact(ctx context.Context, in *RequestFlag, out *ReplyInfo) error {
+	return h.GroupServiceHandler.UpdateContact(ctx, in, out)
+}
+
+func (h *groupServiceHandler) UpdateLocation(ctx context.Context, in *RequestFlag, out *ReplyInfo) error {
 	return h.GroupServiceHandler.UpdateLocation(ctx, in, out)
 }
 

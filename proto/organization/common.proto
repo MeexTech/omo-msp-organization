@@ -50,9 +50,10 @@ message RequestAddress{
   string operator = 6;
 }
 
-message RequestLocation{
+message RequestFlag{
   string uid = 1;
-  string location = 2;
+  string flag = 2;
+  string operator = 3;
 }
 
 message RequestMember {

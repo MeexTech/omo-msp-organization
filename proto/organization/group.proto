@@ -9,10 +9,11 @@ service GroupService {
   rpc GetOne(RequestInfo) returns (ReplyGroupOne) {}
   rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
   rpc GetList(RequestPage) returns (ReplyGroupList) {}
-  rpc UpdateBase(ReqGroupUpdate) returns (ReplyGroupOne) {}
-  rpc UpdateMaster(RequestInfo) returns (ReplyGroupOne) {}
-  rpc UpdateAssistant(RequestInfo) returns (ReplyGroupOne) {}
-  rpc UpdateLocation(RequestLocation) returns (ReplyGroupOne) {}
+  rpc UpdateBase(ReqGroupUpdate) returns (ReplyInfo) {}
+  rpc UpdateMaster(RequestFlag) returns (ReplyInfo) {}
+  rpc UpdateAssistant(RequestFlag) returns (ReplyInfo) {}
+  rpc UpdateContact(RequestFlag) returns (ReplyInfo) {}
+  rpc UpdateLocation(RequestFlag) returns (ReplyInfo) {}
   rpc UpdateAddress(RequestAddress) returns (ReplyGroupOne) {}
   rpc AppendMember(RequestMember) returns (ReplyMembers) {}
   rpc SubtractMember(RequestMember) returns (ReplyMembers) {}

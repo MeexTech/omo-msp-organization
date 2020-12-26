@@ -40,10 +40,10 @@ type SceneService interface {
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	IsMasterUsed(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyMasterUsed, error)
 	GetList(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplySceneList, error)
-	UpdateBase(ctx context.Context, in *ReqSceneUpdate, opts ...client.CallOption) (*ReplySceneOne, error)
-	UpdateStatus(ctx context.Context, in *ReqSceneStatus, opts ...client.CallOption) (*ReplySceneOne, error)
+	UpdateBase(ctx context.Context, in *ReqSceneUpdate, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateStatus(ctx context.Context, in *ReqSceneStatus, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateAddress(ctx context.Context, in *RequestAddress, opts ...client.CallOption) (*ReplySceneOne, error)
-	UpdateLocation(ctx context.Context, in *RequestLocation, opts ...client.CallOption) (*ReplySceneOne, error)
+	UpdateLocation(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
 	AppendMember(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyMembers, error)
 	SubtractMember(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyMembers, error)
 }
@@ -120,9 +120,9 @@ func (c *sceneService) GetList(ctx context.Context, in *RequestPage, opts ...cli
 	return out, nil
 }
 
-func (c *sceneService) UpdateBase(ctx context.Context, in *ReqSceneUpdate, opts ...client.CallOption) (*ReplySceneOne, error) {
+func (c *sceneService) UpdateBase(ctx context.Context, in *ReqSceneUpdate, opts ...client.CallOption) (*ReplyInfo, error) {
 	req := c.c.NewRequest(c.name, "SceneService.UpdateBase", in)
-	out := new(ReplySceneOne)
+	out := new(ReplyInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -130,9 +130,9 @@ func (c *sceneService) UpdateBase(ctx context.Context, in *ReqSceneUpdate, opts 
 	return out, nil
 }
 
-func (c *sceneService) UpdateStatus(ctx context.Context, in *ReqSceneStatus, opts ...client.CallOption) (*ReplySceneOne, error) {
+func (c *sceneService) UpdateStatus(ctx context.Context, in *ReqSceneStatus, opts ...client.CallOption) (*ReplyInfo, error) {
 	req := c.c.NewRequest(c.name, "SceneService.UpdateStatus", in)
-	out := new(ReplySceneOne)
+	out := new(ReplyInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -150,9 +150,9 @@ func (c *sceneService) UpdateAddress(ctx context.Context, in *RequestAddress, op
 	return out, nil
 }
 
-func (c *sceneService) UpdateLocation(ctx context.Context, in *RequestLocation, opts ...client.CallOption) (*ReplySceneOne, error) {
+func (c *sceneService) UpdateLocation(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error) {
 	req := c.c.NewRequest(c.name, "SceneService.UpdateLocation", in)
-	out := new(ReplySceneOne)
+	out := new(ReplyInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -189,10 +189,10 @@ type SceneServiceHandler interface {
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	IsMasterUsed(context.Context, *RequestInfo, *ReplyMasterUsed) error
 	GetList(context.Context, *RequestPage, *ReplySceneList) error
-	UpdateBase(context.Context, *ReqSceneUpdate, *ReplySceneOne) error
-	UpdateStatus(context.Context, *ReqSceneStatus, *ReplySceneOne) error
+	UpdateBase(context.Context, *ReqSceneUpdate, *ReplyInfo) error
+	UpdateStatus(context.Context, *ReqSceneStatus, *ReplyInfo) error
 	UpdateAddress(context.Context, *RequestAddress, *ReplySceneOne) error
-	UpdateLocation(context.Context, *RequestLocation, *ReplySceneOne) error
+	UpdateLocation(context.Context, *RequestFlag, *ReplyInfo) error
 	AppendMember(context.Context, *RequestMember, *ReplyMembers) error
 	SubtractMember(context.Context, *RequestMember, *ReplyMembers) error
 }
@@ -205,10 +205,10 @@ func RegisterSceneServiceHandler(s server.Server, hdlr SceneServiceHandler, opts
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		IsMasterUsed(ctx context.Context, in *RequestInfo, out *ReplyMasterUsed) error
 		GetList(ctx context.Context, in *RequestPage, out *ReplySceneList) error
-		UpdateBase(ctx context.Context, in *ReqSceneUpdate, out *ReplySceneOne) error
-		UpdateStatus(ctx context.Context, in *ReqSceneStatus, out *ReplySceneOne) error
+		UpdateBase(ctx context.Context, in *ReqSceneUpdate, out *ReplyInfo) error
+		UpdateStatus(ctx context.Context, in *ReqSceneStatus, out *ReplyInfo) error
 		UpdateAddress(ctx context.Context, in *RequestAddress, out *ReplySceneOne) error
-		UpdateLocation(ctx context.Context, in *RequestLocation, out *ReplySceneOne) error
+		UpdateLocation(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
 		AppendMember(ctx context.Context, in *RequestMember, out *ReplyMembers) error
 		SubtractMember(ctx context.Context, in *RequestMember, out *ReplyMembers) error
 	}
@@ -247,11 +247,11 @@ func (h *sceneServiceHandler) GetList(ctx context.Context, in *RequestPage, out 
 	return h.SceneServiceHandler.GetList(ctx, in, out)
 }
 
-func (h *sceneServiceHandler) UpdateBase(ctx context.Context, in *ReqSceneUpdate, out *ReplySceneOne) error {
+func (h *sceneServiceHandler) UpdateBase(ctx context.Context, in *ReqSceneUpdate, out *ReplyInfo) error {
 	return h.SceneServiceHandler.UpdateBase(ctx, in, out)
 }
 
-func (h *sceneServiceHandler) UpdateStatus(ctx context.Context, in *ReqSceneStatus, out *ReplySceneOne) error {
+func (h *sceneServiceHandler) UpdateStatus(ctx context.Context, in *ReqSceneStatus, out *ReplyInfo) error {
 	return h.SceneServiceHandler.UpdateStatus(ctx, in, out)
 }
 
@@ -259,7 +259,7 @@ func (h *sceneServiceHandler) UpdateAddress(ctx context.Context, in *RequestAddr
 	return h.SceneServiceHandler.UpdateAddress(ctx, in, out)
 }
 
-func (h *sceneServiceHandler) UpdateLocation(ctx context.Context, in *RequestLocation, out *ReplySceneOne) error {
+func (h *sceneServiceHandler) UpdateLocation(ctx context.Context, in *RequestFlag, out *ReplyInfo) error {
 	return h.SceneServiceHandler.UpdateLocation(ctx, in, out)
 }
 
