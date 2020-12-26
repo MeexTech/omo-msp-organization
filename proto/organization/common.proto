@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package omo.msp.scene;
+option go_package= "proto/organization";
+
+enum ResultStatus {
+  Success = 0;
+  MaxLimit = 1;
+  Repeated = 2;
+  NotExisted = 3;
+  DBException = 4;
+  Empty = 5;
+}
+
+message AddressInfo {
+  string country = 1;
+  string province = 2;
+  string city = 3;
+  string zone = 4;
+}
+
+message RequestInfo {
+  string parent = 1;
+  string uid = 2;
+  string operator = 3;
+}
+
+message RequestPage{
+  string parent = 1;
+  uint32 number = 2;
+  uint32 page = 3;
+}
+
+message ReplyStatus {
+  uint32 code = 1;
+  string error = 2;
+}
+
+message ReplyInfo {
+  string uid = 1;
+  ReplyStatus status = 2;
+}
+
+message RequestAddress{
+  string uid = 1;
+  string country = 2;
+  string province = 3;
+  string city = 4;
+  string zone = 5;
+  string operator = 6;
+}
+
+message RequestLocation{
+  string uid = 1;
+  string location = 2;
+}
+
+message RequestMember {
+  string uid = 1;
+  string member = 2;
+  string operator = 3;
+}
+
+message ReplyMembers {
+  string uid = 1;
+  repeated string members = 2;
+  ReplyStatus status = 3;
+}

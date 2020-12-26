@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package omo.msp.scene;
 option go_package= "proto/organization";
+import "proto/organization/common.proto";
 
 service SceneService {
   rpc AddOne(ReqSceneAdd) returns (ReplySceneOne) {}
@@ -9,12 +10,13 @@ service SceneService {
   rpc GetOneByMaster(RequestInfo) returns (ReplySceneOne) {}
   rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
   rpc IsMasterUsed(RequestInfo) returns (ReplyMasterUsed) {}
-  rpc GetList(ReqScenePage) returns (ReplySceneList) {}
+  rpc GetList(RequestPage) returns (ReplySceneList) {}
   rpc UpdateBase(ReqSceneUpdate) returns (ReplySceneOne) {}
   rpc UpdateStatus(ReqSceneStatus) returns (ReplySceneOne) {}
-  rpc UpdateAddress(ReqSceneAddress) returns (ReplySceneOne) {}
-  rpc AppendMember(ReqSceneMember) returns (ReplySceneMembers) {}
-  rpc SubtractMember(ReqSceneMember) returns (ReplySceneMembers) {}
+  rpc UpdateAddress(RequestAddress) returns (ReplySceneOne) {}
+  rpc UpdateLocation(RequestLocation) returns (ReplySceneOne) {}
+  rpc AppendMember(RequestMember) returns (ReplyMembers) {}
+  rpc SubtractMember(RequestMember) returns (ReplyMembers) {}
 }
 
 message SceneInfo {
@@ -36,37 +38,6 @@ message SceneInfo {
   repeated string members = 15;
 }
 
-message AddressInfo {
-  string country = 1;
-  string province = 2;
-  string city = 3;
-  string zone = 4;
-}
-
-enum ResultStatus {
-  Success = 0;
-  MaxLimit = 1;
-  Repeated = 2;
-  NotExisted = 3;
-  DBException = 4;
-  Empty = 5;
-}
-
-message RequestInfo {
-  string uid = 1;
-  string operator = 2;
-}
-
-message ReplyStatus {
-  uint32 code = 1;
-  string error = 2;
-}
-
-message ReplyInfo {
-  string uid = 1;
-  ReplyStatus status = 2;
-}
-
 message ReqSceneAdd{
   string name = 1;
   int32 type = 2;
@@ -83,11 +54,6 @@ message ReplySceneOne{
   ReplyStatus status = 2;
 }
 
-message ReqScenePage{
-  uint32 number = 1;
-  uint32 page = 2;
-}
-
 message ReplySceneList{
   uint32 total = 1;
   uint32 pageMax = 2;
@@ -101,18 +67,8 @@ message ReqSceneUpdate{
   string name = 2;
   string cover = 3;
   string remark = 4;
-  string location = 5;
   string master = 6;
   string operator = 7;
-}
-
-message ReqSceneAddress{
-  string uid = 1;
-  string country = 2;
-  string province = 3;
-  string city = 4;
-  string zone = 5;
-  string operator = 6;
 }
 
 message ReplyMasterUsed {
@@ -127,14 +83,4 @@ message ReqSceneStatus{
   string operator = 3;
 }
 
-message ReqSceneMember {
-  string uid = 1;
-  string member = 2;
-  string operator = 3;
-}
 
-message ReplySceneMembers {
-  string uid = 1;
-  repeated string members = 2;
-  ReplyStatus status = 3;
-}

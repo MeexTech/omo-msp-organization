@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package omo.msp.scene;
+option go_package= "proto/organization";
+import "proto/organization/common.proto";
+
+service GroupService {
+  rpc AddOne(ReqGroupAdd) returns (ReplyGroupOne) {}
+  rpc GetOne(RequestInfo) returns (ReplyGroupOne) {}
+  rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
+  rpc GetList(RequestPage) returns (ReplyGroupList) {}
+  rpc UpdateBase(ReqGroupUpdate) returns (ReplyGroupOne) {}
+  rpc UpdateMaster(RequestInfo) returns (ReplyGroupOne) {}
+  rpc UpdateAssistant(RequestInfo) returns (ReplyGroupOne) {}
+  rpc UpdateLocation(RequestLocation) returns (ReplyGroupOne) {}
+  rpc UpdateAddress(RequestAddress) returns (ReplyGroupOne) {}
+  rpc AppendMember(RequestMember) returns (ReplyMembers) {}
+  rpc SubtractMember(RequestMember) returns (ReplyMembers) {}
+}
+
+message GroupInfo {
+  string uid = 1;
+  uint64 id = 2;
+  int64 created = 3;
+  int64 updated = 4;
+  string name = 5;
+  string remark = 6;
+  string location = 7;
+  string contact = 8;
+  string master = 9;
+  string assistant = 10;
+  string entity = 11;
+  string creator = 13;
+  string operator = 14;
+  string scene = 16;
+  string cover = 17;
+  AddressInfo address = 12;
+  repeated string members = 15;
+}
+
+message ReqGroupAdd {
+  string name = 1;
+  string scene = 2;
+  string cover = 3;
+  string remark = 5;
+  string location = 6;
+  string contact = 8;
+  string operator = 9;
+}
+
+message ReqGroupUpdate{
+  string uid = 1;
+  string name = 2;
+  string cover = 3;
+  string remark = 4;
+  string operator = 5;
+}
+
+message ReplyGroupOne{
+  GroupInfo info = 1;
+  ReplyStatus status = 2;
+}
+
+message ReplyGroupList{
+  uint32 total = 1;
+  uint32 pageMax = 2;
+  uint32 pageNow = 3;
+  repeated GroupInfo list = 4;
+  ReplyStatus status = 5;
+}
