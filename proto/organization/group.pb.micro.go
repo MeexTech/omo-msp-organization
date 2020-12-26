@@ -36,6 +36,8 @@ var _ server.Option
 type GroupService interface {
 	AddOne(ctx context.Context, in *ReqGroupAdd, opts ...client.CallOption) (*ReplyGroupOne, error)
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGroupOne, error)
+	GetOnByUser(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyGroupOne, error)
+	GetOnByContact(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyGroupOne, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetList(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyGroupList, error)
 	UpdateBase(ctx context.Context, in *ReqGroupUpdate, opts ...client.CallOption) (*ReplyInfo, error)
@@ -72,6 +74,26 @@ func (c *groupService) AddOne(ctx context.Context, in *ReqGroupAdd, opts ...clie
 
 func (c *groupService) GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGroupOne, error) {
 	req := c.c.NewRequest(c.name, "GroupService.GetOne", in)
+	out := new(ReplyGroupOne)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *groupService) GetOnByUser(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyGroupOne, error) {
+	req := c.c.NewRequest(c.name, "GroupService.GetOnByUser", in)
+	out := new(ReplyGroupOne)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *groupService) GetOnByContact(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyGroupOne, error) {
+	req := c.c.NewRequest(c.name, "GroupService.GetOnByContact", in)
 	out := new(ReplyGroupOne)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -185,6 +207,8 @@ func (c *groupService) SubtractMember(ctx context.Context, in *RequestMember, op
 type GroupServiceHandler interface {
 	AddOne(context.Context, *ReqGroupAdd, *ReplyGroupOne) error
 	GetOne(context.Context, *RequestInfo, *ReplyGroupOne) error
+	GetOnByUser(context.Context, *RequestMember, *ReplyGroupOne) error
+	GetOnByContact(context.Context, *RequestMember, *ReplyGroupOne) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetList(context.Context, *RequestPage, *ReplyGroupList) error
 	UpdateBase(context.Context, *ReqGroupUpdate, *ReplyInfo) error
@@ -201,6 +225,8 @@ func RegisterGroupServiceHandler(s server.Server, hdlr GroupServiceHandler, opts
 	type groupService interface {
 		AddOne(ctx context.Context, in *ReqGroupAdd, out *ReplyGroupOne) error
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyGroupOne) error
+		GetOnByUser(ctx context.Context, in *RequestMember, out *ReplyGroupOne) error
+		GetOnByContact(ctx context.Context, in *RequestMember, out *ReplyGroupOne) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetList(ctx context.Context, in *RequestPage, out *ReplyGroupList) error
 		UpdateBase(ctx context.Context, in *ReqGroupUpdate, out *ReplyInfo) error
@@ -229,6 +255,14 @@ func (h *groupServiceHandler) AddOne(ctx context.Context, in *ReqGroupAdd, out *
 
 func (h *groupServiceHandler) GetOne(ctx context.Context, in *RequestInfo, out *ReplyGroupOne) error {
 	return h.GroupServiceHandler.GetOne(ctx, in, out)
+}
+
+func (h *groupServiceHandler) GetOnByUser(ctx context.Context, in *RequestMember, out *ReplyGroupOne) error {
+	return h.GroupServiceHandler.GetOnByUser(ctx, in, out)
+}
+
+func (h *groupServiceHandler) GetOnByContact(ctx context.Context, in *RequestMember, out *ReplyGroupOne) error {
+	return h.GroupServiceHandler.GetOnByContact(ctx, in, out)
 }
 
 func (h *groupServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error {

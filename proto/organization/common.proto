@@ -17,6 +17,7 @@ message AddressInfo {
   string province = 2;
   string city = 3;
   string zone = 4;
+  string location = 5;
 }
 
 message RequestInfo {
