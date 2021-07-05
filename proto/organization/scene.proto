@@ -18,6 +18,7 @@ service SceneService {
   rpc AppendMember(RequestInfo) returns (ReplyList) {}
   rpc SubtractMember(RequestInfo) returns (ReplyList) {}
   rpc PutOnDisplay(RequestInfo) returns (ReplyList) {}
+  rpc CancelDisplay(RequestInfo) returns (ReplyList) {}
 }
 
 message SceneInfo {
