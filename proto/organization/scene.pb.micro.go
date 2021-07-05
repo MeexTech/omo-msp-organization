@@ -44,8 +44,9 @@ type SceneService interface {
 	UpdateStatus(ctx context.Context, in *ReqSceneStatus, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateAddress(ctx context.Context, in *RequestAddress, opts ...client.CallOption) (*ReplySceneOne, error)
 	UpdateLocation(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
-	AppendMember(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyMembers, error)
-	SubtractMember(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyMembers, error)
+	AppendMember(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyList, error)
+	SubtractMember(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyList, error)
+	PutOnDisplay(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyList, error)
 }
 
 type sceneService struct {
@@ -160,9 +161,9 @@ func (c *sceneService) UpdateLocation(ctx context.Context, in *RequestFlag, opts
 	return out, nil
 }
 
-func (c *sceneService) AppendMember(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyMembers, error) {
+func (c *sceneService) AppendMember(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyList, error) {
 	req := c.c.NewRequest(c.name, "SceneService.AppendMember", in)
-	out := new(ReplyMembers)
+	out := new(ReplyList)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -170,9 +171,19 @@ func (c *sceneService) AppendMember(ctx context.Context, in *RequestMember, opts
 	return out, nil
 }
 
-func (c *sceneService) SubtractMember(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyMembers, error) {
+func (c *sceneService) SubtractMember(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyList, error) {
 	req := c.c.NewRequest(c.name, "SceneService.SubtractMember", in)
-	out := new(ReplyMembers)
+	out := new(ReplyList)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sceneService) PutOnDisplay(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyList, error) {
+	req := c.c.NewRequest(c.name, "SceneService.PutOnDisplay", in)
+	out := new(ReplyList)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -193,8 +204,9 @@ type SceneServiceHandler interface {
 	UpdateStatus(context.Context, *ReqSceneStatus, *ReplyInfo) error
 	UpdateAddress(context.Context, *RequestAddress, *ReplySceneOne) error
 	UpdateLocation(context.Context, *RequestFlag, *ReplyInfo) error
-	AppendMember(context.Context, *RequestMember, *ReplyMembers) error
-	SubtractMember(context.Context, *RequestMember, *ReplyMembers) error
+	AppendMember(context.Context, *RequestInfo, *ReplyList) error
+	SubtractMember(context.Context, *RequestInfo, *ReplyList) error
+	PutOnDisplay(context.Context, *RequestInfo, *ReplyList) error
 }
 
 func RegisterSceneServiceHandler(s server.Server, hdlr SceneServiceHandler, opts ...server.HandlerOption) error {
@@ -209,8 +221,9 @@ func RegisterSceneServiceHandler(s server.Server, hdlr SceneServiceHandler, opts
 		UpdateStatus(ctx context.Context, in *ReqSceneStatus, out *ReplyInfo) error
 		UpdateAddress(ctx context.Context, in *RequestAddress, out *ReplySceneOne) error
 		UpdateLocation(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
-		AppendMember(ctx context.Context, in *RequestMember, out *ReplyMembers) error
-		SubtractMember(ctx context.Context, in *RequestMember, out *ReplyMembers) error
+		AppendMember(ctx context.Context, in *RequestInfo, out *ReplyList) error
+		SubtractMember(ctx context.Context, in *RequestInfo, out *ReplyList) error
+		PutOnDisplay(ctx context.Context, in *RequestInfo, out *ReplyList) error
 	}
 	type SceneService struct {
 		sceneService
@@ -263,10 +276,14 @@ func (h *sceneServiceHandler) UpdateLocation(ctx context.Context, in *RequestFla
 	return h.SceneServiceHandler.UpdateLocation(ctx, in, out)
 }
 
-func (h *sceneServiceHandler) AppendMember(ctx context.Context, in *RequestMember, out *ReplyMembers) error {
+func (h *sceneServiceHandler) AppendMember(ctx context.Context, in *RequestInfo, out *ReplyList) error {
 	return h.SceneServiceHandler.AppendMember(ctx, in, out)
 }
 
-func (h *sceneServiceHandler) SubtractMember(ctx context.Context, in *RequestMember, out *ReplyMembers) error {
+func (h *sceneServiceHandler) SubtractMember(ctx context.Context, in *RequestInfo, out *ReplyList) error {
 	return h.SceneServiceHandler.SubtractMember(ctx, in, out)
+}
+
+func (h *sceneServiceHandler) PutOnDisplay(ctx context.Context, in *RequestInfo, out *ReplyList) error {
+	return h.SceneServiceHandler.PutOnDisplay(ctx, in, out)
 }

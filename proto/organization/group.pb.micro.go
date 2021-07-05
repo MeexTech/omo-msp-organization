@@ -36,8 +36,8 @@ var _ server.Option
 type GroupService interface {
 	AddOne(ctx context.Context, in *ReqGroupAdd, opts ...client.CallOption) (*ReplyGroupOne, error)
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGroupOne, error)
-	GetByUser(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyGroupList, error)
-	GetByContact(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyGroupList, error)
+	GetByUser(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGroupList, error)
+	GetByContact(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGroupList, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetList(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyGroupList, error)
 	UpdateBase(ctx context.Context, in *ReqGroupUpdate, opts ...client.CallOption) (*ReplyInfo, error)
@@ -46,8 +46,8 @@ type GroupService interface {
 	UpdateContact(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateLocation(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateAddress(ctx context.Context, in *RequestAddress, opts ...client.CallOption) (*ReplyGroupOne, error)
-	AppendMember(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyMembers, error)
-	SubtractMember(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyMembers, error)
+	AppendMember(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyList, error)
+	SubtractMember(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyList, error)
 }
 
 type groupService struct {
@@ -82,7 +82,7 @@ func (c *groupService) GetOne(ctx context.Context, in *RequestInfo, opts ...clie
 	return out, nil
 }
 
-func (c *groupService) GetByUser(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyGroupList, error) {
+func (c *groupService) GetByUser(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGroupList, error) {
 	req := c.c.NewRequest(c.name, "GroupService.GetByUser", in)
 	out := new(ReplyGroupList)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -92,7 +92,7 @@ func (c *groupService) GetByUser(ctx context.Context, in *RequestMember, opts ..
 	return out, nil
 }
 
-func (c *groupService) GetByContact(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyGroupList, error) {
+func (c *groupService) GetByContact(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGroupList, error) {
 	req := c.c.NewRequest(c.name, "GroupService.GetByContact", in)
 	out := new(ReplyGroupList)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -182,9 +182,9 @@ func (c *groupService) UpdateAddress(ctx context.Context, in *RequestAddress, op
 	return out, nil
 }
 
-func (c *groupService) AppendMember(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyMembers, error) {
+func (c *groupService) AppendMember(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyList, error) {
 	req := c.c.NewRequest(c.name, "GroupService.AppendMember", in)
-	out := new(ReplyMembers)
+	out := new(ReplyList)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -192,9 +192,9 @@ func (c *groupService) AppendMember(ctx context.Context, in *RequestMember, opts
 	return out, nil
 }
 
-func (c *groupService) SubtractMember(ctx context.Context, in *RequestMember, opts ...client.CallOption) (*ReplyMembers, error) {
+func (c *groupService) SubtractMember(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyList, error) {
 	req := c.c.NewRequest(c.name, "GroupService.SubtractMember", in)
-	out := new(ReplyMembers)
+	out := new(ReplyList)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -207,8 +207,8 @@ func (c *groupService) SubtractMember(ctx context.Context, in *RequestMember, op
 type GroupServiceHandler interface {
 	AddOne(context.Context, *ReqGroupAdd, *ReplyGroupOne) error
 	GetOne(context.Context, *RequestInfo, *ReplyGroupOne) error
-	GetByUser(context.Context, *RequestMember, *ReplyGroupList) error
-	GetByContact(context.Context, *RequestMember, *ReplyGroupList) error
+	GetByUser(context.Context, *RequestInfo, *ReplyGroupList) error
+	GetByContact(context.Context, *RequestInfo, *ReplyGroupList) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetList(context.Context, *RequestPage, *ReplyGroupList) error
 	UpdateBase(context.Context, *ReqGroupUpdate, *ReplyInfo) error
@@ -217,16 +217,16 @@ type GroupServiceHandler interface {
 	UpdateContact(context.Context, *RequestFlag, *ReplyInfo) error
 	UpdateLocation(context.Context, *RequestFlag, *ReplyInfo) error
 	UpdateAddress(context.Context, *RequestAddress, *ReplyGroupOne) error
-	AppendMember(context.Context, *RequestMember, *ReplyMembers) error
-	SubtractMember(context.Context, *RequestMember, *ReplyMembers) error
+	AppendMember(context.Context, *RequestInfo, *ReplyList) error
+	SubtractMember(context.Context, *RequestInfo, *ReplyList) error
 }
 
 func RegisterGroupServiceHandler(s server.Server, hdlr GroupServiceHandler, opts ...server.HandlerOption) error {
 	type groupService interface {
 		AddOne(ctx context.Context, in *ReqGroupAdd, out *ReplyGroupOne) error
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyGroupOne) error
-		GetByUser(ctx context.Context, in *RequestMember, out *ReplyGroupList) error
-		GetByContact(ctx context.Context, in *RequestMember, out *ReplyGroupList) error
+		GetByUser(ctx context.Context, in *RequestInfo, out *ReplyGroupList) error
+		GetByContact(ctx context.Context, in *RequestInfo, out *ReplyGroupList) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetList(ctx context.Context, in *RequestPage, out *ReplyGroupList) error
 		UpdateBase(ctx context.Context, in *ReqGroupUpdate, out *ReplyInfo) error
@@ -235,8 +235,8 @@ func RegisterGroupServiceHandler(s server.Server, hdlr GroupServiceHandler, opts
 		UpdateContact(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
 		UpdateLocation(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
 		UpdateAddress(ctx context.Context, in *RequestAddress, out *ReplyGroupOne) error
-		AppendMember(ctx context.Context, in *RequestMember, out *ReplyMembers) error
-		SubtractMember(ctx context.Context, in *RequestMember, out *ReplyMembers) error
+		AppendMember(ctx context.Context, in *RequestInfo, out *ReplyList) error
+		SubtractMember(ctx context.Context, in *RequestInfo, out *ReplyList) error
 	}
 	type GroupService struct {
 		groupService
@@ -257,11 +257,11 @@ func (h *groupServiceHandler) GetOne(ctx context.Context, in *RequestInfo, out *
 	return h.GroupServiceHandler.GetOne(ctx, in, out)
 }
 
-func (h *groupServiceHandler) GetByUser(ctx context.Context, in *RequestMember, out *ReplyGroupList) error {
+func (h *groupServiceHandler) GetByUser(ctx context.Context, in *RequestInfo, out *ReplyGroupList) error {
 	return h.GroupServiceHandler.GetByUser(ctx, in, out)
 }
 
-func (h *groupServiceHandler) GetByContact(ctx context.Context, in *RequestMember, out *ReplyGroupList) error {
+func (h *groupServiceHandler) GetByContact(ctx context.Context, in *RequestInfo, out *ReplyGroupList) error {
 	return h.GroupServiceHandler.GetByContact(ctx, in, out)
 }
 
@@ -297,10 +297,10 @@ func (h *groupServiceHandler) UpdateAddress(ctx context.Context, in *RequestAddr
 	return h.GroupServiceHandler.UpdateAddress(ctx, in, out)
 }
 
-func (h *groupServiceHandler) AppendMember(ctx context.Context, in *RequestMember, out *ReplyMembers) error {
+func (h *groupServiceHandler) AppendMember(ctx context.Context, in *RequestInfo, out *ReplyList) error {
 	return h.GroupServiceHandler.AppendMember(ctx, in, out)
 }
 
-func (h *groupServiceHandler) SubtractMember(ctx context.Context, in *RequestMember, out *ReplyMembers) error {
+func (h *groupServiceHandler) SubtractMember(ctx context.Context, in *RequestInfo, out *ReplyList) error {
 	return h.GroupServiceHandler.SubtractMember(ctx, in, out)
 }

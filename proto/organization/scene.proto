@@ -15,8 +15,9 @@ service SceneService {
   rpc UpdateStatus(ReqSceneStatus) returns (ReplyInfo) {}
   rpc UpdateAddress(RequestAddress) returns (ReplySceneOne) {}
   rpc UpdateLocation(RequestFlag) returns (ReplyInfo) {}
-  rpc AppendMember(RequestMember) returns (ReplyMembers) {}
-  rpc SubtractMember(RequestMember) returns (ReplyMembers) {}
+  rpc AppendMember(RequestInfo) returns (ReplyList) {}
+  rpc SubtractMember(RequestInfo) returns (ReplyList) {}
+  rpc PutOnDisplay(RequestInfo) returns (ReplyList) {}
 }
 
 message SceneInfo {
@@ -34,8 +35,9 @@ message SceneInfo {
   string entity = 12;
   string creator = 13;
   string operator = 14;
-  AddressInfo address = 16;
-  repeated string members = 15;
+  AddressInfo address = 15;
+  repeated string members = 16;
+  repeated string exhibitions = 17;
 }
 
 message ReqSceneAdd{
