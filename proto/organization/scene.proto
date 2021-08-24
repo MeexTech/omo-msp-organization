@@ -19,6 +19,7 @@ service SceneService {
   rpc SubtractMember(RequestInfo) returns (ReplyList) {}
   rpc PutOnDisplay(RequestInfo) returns (ReplyList) {}
   rpc CancelDisplay(RequestInfo) returns (ReplyList) {}
+  rpc UpdateDisplay(ReqSceneDisplay) returns (ReplyList) {}
 }
 
 message SceneInfo {
@@ -89,6 +90,13 @@ message ReqSceneStatus{
   string uid = 1;
   int32 status = 2;
   string operator = 3;
+}
+
+message ReqSceneDisplay{
+  string scene = 1;
+  string uid = 2;
+  string key = 3;
+  string operator = 4;
 }
 
 
