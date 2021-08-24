@@ -45,6 +45,7 @@ message SceneInfo {
 message ExhibitInfo {
   string uid = 1;
   string effect = 2;
+  repeated string slots = 3;
 }
 
 message ReqSceneAdd{
@@ -97,6 +98,7 @@ message ReqSceneDisplay{
   string uid = 2;
   string key = 3;
   string operator = 4;
+  repeated string slots = 5;
 }
 
 message ReplySceneDisplays{
