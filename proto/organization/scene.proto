@@ -17,9 +17,9 @@ service SceneService {
   rpc UpdateLocation(RequestFlag) returns (ReplyInfo) {}
   rpc AppendMember(RequestInfo) returns (ReplyList) {}
   rpc SubtractMember(RequestInfo) returns (ReplyList) {}
-  rpc PutOnDisplay(RequestInfo) returns (ReplyList) {}
-  rpc CancelDisplay(RequestInfo) returns (ReplyList) {}
-  rpc UpdateDisplay(ReqSceneDisplay) returns (ReplyList) {}
+  rpc PutOnDisplay(RequestInfo) returns (ReplySceneDisplays) {}
+  rpc CancelDisplay(RequestInfo) returns (ReplySceneDisplays) {}
+  rpc UpdateDisplay(ReqSceneDisplay) returns (ReplySceneDisplays) {}
 }
 
 message SceneInfo {
@@ -97,6 +97,12 @@ message ReqSceneDisplay{
   string uid = 2;
   string key = 3;
   string operator = 4;
+}
+
+message ReplySceneDisplays{
+  ReplyStatus status = 1;
+  string uid = 2;
+  repeated ExhibitInfo list = 3;
 }
 
 
