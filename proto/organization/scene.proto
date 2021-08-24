@@ -38,7 +38,12 @@ message SceneInfo {
   string operator = 14;
   AddressInfo address = 15;
   repeated string members = 16;
-  repeated string exhibitions = 17;
+  repeated ExhibitInfo exhibitions = 17;
+}
+
+message ExhibitInfo {
+  string uid = 1;
+  string effect = 2;
 }
 
 message ReqSceneAdd{
