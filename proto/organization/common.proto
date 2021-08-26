@@ -58,6 +58,12 @@ message RequestFlag{
   string operator = 3;
 }
 
+message RequestList{
+  string uid = 1;
+  string operator = 2;
+  repeated string  list = 3;
+}
+
 message ReplyList {
   string uid = 1;
   repeated string list = 2;
