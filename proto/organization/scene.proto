@@ -100,8 +100,9 @@ message ReqSceneDisplay{
   string scene = 1;
   string uid = 2;
   string key = 3;
-  string operator = 4;
-  repeated string slots = 5;
+  string skin = 4;
+  string operator = 5;
+  repeated string slots = 6;
 }
 
 message ReplySceneDisplays{
