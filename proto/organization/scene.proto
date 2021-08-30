@@ -47,6 +47,7 @@ message SceneInfo {
 message ExhibitInfo {
   string uid = 1;
   string effect = 2;
+  string skin = 4;
   repeated string slots = 3;
 }
 
