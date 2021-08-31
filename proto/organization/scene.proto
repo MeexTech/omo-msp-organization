@@ -82,6 +82,7 @@ message ReqSceneUpdate{
   string remark = 4;
   string master = 6;
   string operator = 7;
+  uint32 type = 8;
 }
 
 message ReplyMasterUsed {
