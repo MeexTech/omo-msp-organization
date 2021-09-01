@@ -50,6 +50,7 @@ type SceneService interface {
 	CancelDisplay(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplySceneDisplays, error)
 	UpdateDisplay(ctx context.Context, in *ReqSceneDisplay, opts ...client.CallOption) (*ReplySceneDisplays, error)
 	UpdateChildren(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyList, error)
+	UpdateSupporter(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 }
 
 type sceneService struct {
@@ -224,6 +225,16 @@ func (c *sceneService) UpdateChildren(ctx context.Context, in *RequestList, opts
 	return out, nil
 }
 
+func (c *sceneService) UpdateSupporter(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "SceneService.UpdateSupporter", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for SceneService service
 
 type SceneServiceHandler interface {
@@ -243,6 +254,7 @@ type SceneServiceHandler interface {
 	CancelDisplay(context.Context, *RequestInfo, *ReplySceneDisplays) error
 	UpdateDisplay(context.Context, *ReqSceneDisplay, *ReplySceneDisplays) error
 	UpdateChildren(context.Context, *RequestList, *ReplyList) error
+	UpdateSupporter(context.Context, *RequestInfo, *ReplyInfo) error
 }
 
 func RegisterSceneServiceHandler(s server.Server, hdlr SceneServiceHandler, opts ...server.HandlerOption) error {
@@ -263,6 +275,7 @@ func RegisterSceneServiceHandler(s server.Server, hdlr SceneServiceHandler, opts
 		CancelDisplay(ctx context.Context, in *RequestInfo, out *ReplySceneDisplays) error
 		UpdateDisplay(ctx context.Context, in *ReqSceneDisplay, out *ReplySceneDisplays) error
 		UpdateChildren(ctx context.Context, in *RequestList, out *ReplyList) error
+		UpdateSupporter(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 	}
 	type SceneService struct {
 		sceneService
@@ -337,4 +350,8 @@ func (h *sceneServiceHandler) UpdateDisplay(ctx context.Context, in *ReqSceneDis
 
 func (h *sceneServiceHandler) UpdateChildren(ctx context.Context, in *RequestList, out *ReplyList) error {
 	return h.SceneServiceHandler.UpdateChildren(ctx, in, out)
+}
+
+func (h *sceneServiceHandler) UpdateSupporter(ctx context.Context, in *RequestInfo, out *ReplyInfo) error {
+	return h.SceneServiceHandler.UpdateSupporter(ctx, in, out)
 }

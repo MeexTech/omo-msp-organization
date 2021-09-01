@@ -21,6 +21,7 @@ service SceneService {
   rpc CancelDisplay(RequestInfo) returns (ReplySceneDisplays) {}
   rpc UpdateDisplay(ReqSceneDisplay) returns (ReplySceneDisplays) {}
   rpc UpdateChildren(RequestList) returns (ReplyList) {}
+  rpc UpdateSupporter(RequestInfo) returns (ReplyInfo) {}
 }
 
 message SceneInfo {
@@ -39,6 +40,7 @@ message SceneInfo {
   string creator = 13;
   string operator = 14;
   AddressInfo address = 15;
+  string supporter = 19;
   repeated string members = 16;
   repeated ExhibitInfo exhibitions = 17;
   repeated string children = 18;
