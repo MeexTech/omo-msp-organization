@@ -49,7 +49,7 @@ type SceneService interface {
 	PutOnDisplay(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplySceneDisplays, error)
 	CancelDisplay(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplySceneDisplays, error)
 	UpdateDisplay(ctx context.Context, in *ReqSceneDisplay, opts ...client.CallOption) (*ReplySceneDisplays, error)
-	UpdateChildren(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyList, error)
+	UpdateParents(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyList, error)
 	UpdateSupporter(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 }
 
@@ -215,8 +215,8 @@ func (c *sceneService) UpdateDisplay(ctx context.Context, in *ReqSceneDisplay, o
 	return out, nil
 }
 
-func (c *sceneService) UpdateChildren(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyList, error) {
-	req := c.c.NewRequest(c.name, "SceneService.UpdateChildren", in)
+func (c *sceneService) UpdateParents(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyList, error) {
+	req := c.c.NewRequest(c.name, "SceneService.UpdateParents", in)
 	out := new(ReplyList)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -253,7 +253,7 @@ type SceneServiceHandler interface {
 	PutOnDisplay(context.Context, *RequestInfo, *ReplySceneDisplays) error
 	CancelDisplay(context.Context, *RequestInfo, *ReplySceneDisplays) error
 	UpdateDisplay(context.Context, *ReqSceneDisplay, *ReplySceneDisplays) error
-	UpdateChildren(context.Context, *RequestList, *ReplyList) error
+	UpdateParents(context.Context, *RequestList, *ReplyList) error
 	UpdateSupporter(context.Context, *RequestInfo, *ReplyInfo) error
 }
 
@@ -274,7 +274,7 @@ func RegisterSceneServiceHandler(s server.Server, hdlr SceneServiceHandler, opts
 		PutOnDisplay(ctx context.Context, in *RequestInfo, out *ReplySceneDisplays) error
 		CancelDisplay(ctx context.Context, in *RequestInfo, out *ReplySceneDisplays) error
 		UpdateDisplay(ctx context.Context, in *ReqSceneDisplay, out *ReplySceneDisplays) error
-		UpdateChildren(ctx context.Context, in *RequestList, out *ReplyList) error
+		UpdateParents(ctx context.Context, in *RequestList, out *ReplyList) error
 		UpdateSupporter(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 	}
 	type SceneService struct {
@@ -348,8 +348,8 @@ func (h *sceneServiceHandler) UpdateDisplay(ctx context.Context, in *ReqSceneDis
 	return h.SceneServiceHandler.UpdateDisplay(ctx, in, out)
 }
 
-func (h *sceneServiceHandler) UpdateChildren(ctx context.Context, in *RequestList, out *ReplyList) error {
-	return h.SceneServiceHandler.UpdateChildren(ctx, in, out)
+func (h *sceneServiceHandler) UpdateParents(ctx context.Context, in *RequestList, out *ReplyList) error {
+	return h.SceneServiceHandler.UpdateParents(ctx, in, out)
 }
 
 func (h *sceneServiceHandler) UpdateSupporter(ctx context.Context, in *RequestInfo, out *ReplyInfo) error {
