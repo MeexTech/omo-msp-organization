@@ -22,6 +22,7 @@ service SceneService {
   rpc UpdateDisplay(ReqSceneDisplay) returns (ReplySceneDisplays) {}
   rpc UpdateParents(RequestList) returns (ReplyList) {}
   rpc UpdateSupporter(RequestInfo) returns (ReplyInfo) {}
+  rpc UpdateDomain(RequestInfo) returns (ReplyInfo) {}
 }
 
 message SceneInfo {
@@ -41,6 +42,7 @@ message SceneInfo {
   string operator = 14;
   AddressInfo address = 15;
   string supporter = 19;
+  string domain = 20;
   repeated string members = 16;
   repeated ExhibitInfo exhibitions = 17;
   repeated string parents = 18;
