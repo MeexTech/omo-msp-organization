@@ -50,8 +50,9 @@ type SceneService interface {
 	CancelDisplay(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplySceneDisplays, error)
 	UpdateDisplay(ctx context.Context, in *ReqSceneDisplay, opts ...client.CallOption) (*ReplySceneDisplays, error)
 	UpdateParents(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyList, error)
-	UpdateSupporter(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
-	UpdateDomain(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateSupporter(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateDomain(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateShortName(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
 	AppendDevice(ctx context.Context, in *ReqSceneDevice, opts ...client.CallOption) (*ReplySceneDevices, error)
 	SubtractDevice(ctx context.Context, in *ReqSceneDevice, opts ...client.CallOption) (*ReplySceneDevices, error)
 }
@@ -228,7 +229,7 @@ func (c *sceneService) UpdateParents(ctx context.Context, in *RequestList, opts 
 	return out, nil
 }
 
-func (c *sceneService) UpdateSupporter(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error) {
+func (c *sceneService) UpdateSupporter(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error) {
 	req := c.c.NewRequest(c.name, "SceneService.UpdateSupporter", in)
 	out := new(ReplyInfo)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -238,8 +239,18 @@ func (c *sceneService) UpdateSupporter(ctx context.Context, in *RequestInfo, opt
 	return out, nil
 }
 
-func (c *sceneService) UpdateDomain(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error) {
+func (c *sceneService) UpdateDomain(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error) {
 	req := c.c.NewRequest(c.name, "SceneService.UpdateDomain", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sceneService) UpdateShortName(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "SceneService.UpdateShortName", in)
 	out := new(ReplyInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -287,8 +298,9 @@ type SceneServiceHandler interface {
 	CancelDisplay(context.Context, *RequestInfo, *ReplySceneDisplays) error
 	UpdateDisplay(context.Context, *ReqSceneDisplay, *ReplySceneDisplays) error
 	UpdateParents(context.Context, *RequestList, *ReplyList) error
-	UpdateSupporter(context.Context, *RequestInfo, *ReplyInfo) error
-	UpdateDomain(context.Context, *RequestInfo, *ReplyInfo) error
+	UpdateSupporter(context.Context, *RequestFlag, *ReplyInfo) error
+	UpdateDomain(context.Context, *RequestFlag, *ReplyInfo) error
+	UpdateShortName(context.Context, *RequestFlag, *ReplyInfo) error
 	AppendDevice(context.Context, *ReqSceneDevice, *ReplySceneDevices) error
 	SubtractDevice(context.Context, *ReqSceneDevice, *ReplySceneDevices) error
 }
@@ -311,8 +323,9 @@ func RegisterSceneServiceHandler(s server.Server, hdlr SceneServiceHandler, opts
 		CancelDisplay(ctx context.Context, in *RequestInfo, out *ReplySceneDisplays) error
 		UpdateDisplay(ctx context.Context, in *ReqSceneDisplay, out *ReplySceneDisplays) error
 		UpdateParents(ctx context.Context, in *RequestList, out *ReplyList) error
-		UpdateSupporter(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
-		UpdateDomain(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
+		UpdateSupporter(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
+		UpdateDomain(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
+		UpdateShortName(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
 		AppendDevice(ctx context.Context, in *ReqSceneDevice, out *ReplySceneDevices) error
 		SubtractDevice(ctx context.Context, in *ReqSceneDevice, out *ReplySceneDevices) error
 	}
@@ -391,12 +404,16 @@ func (h *sceneServiceHandler) UpdateParents(ctx context.Context, in *RequestList
 	return h.SceneServiceHandler.UpdateParents(ctx, in, out)
 }
 
-func (h *sceneServiceHandler) UpdateSupporter(ctx context.Context, in *RequestInfo, out *ReplyInfo) error {
+func (h *sceneServiceHandler) UpdateSupporter(ctx context.Context, in *RequestFlag, out *ReplyInfo) error {
 	return h.SceneServiceHandler.UpdateSupporter(ctx, in, out)
 }
 
-func (h *sceneServiceHandler) UpdateDomain(ctx context.Context, in *RequestInfo, out *ReplyInfo) error {
+func (h *sceneServiceHandler) UpdateDomain(ctx context.Context, in *RequestFlag, out *ReplyInfo) error {
 	return h.SceneServiceHandler.UpdateDomain(ctx, in, out)
+}
+
+func (h *sceneServiceHandler) UpdateShortName(ctx context.Context, in *RequestFlag, out *ReplyInfo) error {
+	return h.SceneServiceHandler.UpdateShortName(ctx, in, out)
 }
 
 func (h *sceneServiceHandler) AppendDevice(ctx context.Context, in *ReqSceneDevice, out *ReplySceneDevices) error {

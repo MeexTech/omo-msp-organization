@@ -21,8 +21,9 @@ service SceneService {
   rpc CancelDisplay(RequestInfo) returns (ReplySceneDisplays) {}
   rpc UpdateDisplay(ReqSceneDisplay) returns (ReplySceneDisplays) {}
   rpc UpdateParents(RequestList) returns (ReplyList) {}
-  rpc UpdateSupporter(RequestInfo) returns (ReplyInfo) {}
-  rpc UpdateDomain(RequestInfo) returns (ReplyInfo) {}
+  rpc UpdateSupporter(RequestFlag) returns (ReplyInfo) {}
+  rpc UpdateDomain(RequestFlag) returns (ReplyInfo) {}
+  rpc UpdateShortName(RequestFlag) returns (ReplyInfo) {}
   rpc AppendDevice(ReqSceneDevice) returns (ReplySceneDevices) {}
   rpc SubtractDevice(ReqSceneDevice) returns (ReplySceneDevices) {}
 }
@@ -42,13 +43,14 @@ message SceneInfo {
   string entity = 12;
   string creator = 13;
   string operator = 14;
-  AddressInfo address = 15;
-  string supporter = 19;
-  string domain = 20;
-  repeated string members = 16;
-  repeated ExhibitInfo exhibitions = 17;
-  repeated string parents = 18;
-  repeated DeviceInfo devices = 21;
+  string short = 15;
+  AddressInfo address = 16;
+  string supporter = 17;
+  string domain = 19;
+  repeated string members = 20;
+  repeated ExhibitInfo exhibitions = 21;
+  repeated string parents = 22;
+  repeated DeviceInfo devices = 23;
 }
 
 message DeviceInfo {
@@ -73,6 +75,7 @@ message ReqSceneAdd{
   string location = 6;
   string entity = 7;
   string operator = 8;
+  string short = 9;
 }
 
 message ReqSceneDevice {
