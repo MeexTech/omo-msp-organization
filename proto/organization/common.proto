@@ -32,6 +32,15 @@ message RequestPage{
   uint32 page = 3;
 }
 
+message RequestFilter {
+  string parent = 1;
+  string key = 2;
+  string value = 3;
+  uint32 page = 4;
+  uint32 number = 5;
+  repeated string list = 6;
+}
+
 message ReplyStatus {
   uint32 code = 1;
   string error = 2;
