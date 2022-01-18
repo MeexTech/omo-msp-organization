@@ -12,6 +12,7 @@ service SceneService {
   rpc IsMasterUsed(RequestInfo) returns (ReplyMasterUsed) {}
   rpc GetList(RequestPage) returns (ReplySceneList) {}
   rpc GetByFilter(RequestFilter) returns (ReplySceneList) {}
+  rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
   rpc UpdateBase(ReqSceneUpdate) returns (ReplyInfo) {}
   rpc UpdateStatus(ReqSceneStatus) returns (ReplyInfo) {}
   rpc UpdateAddress(RequestAddress) returns (ReplySceneOne) {}

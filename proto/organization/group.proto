@@ -11,6 +11,7 @@ service GroupService {
   rpc GetByContact(RequestInfo) returns (ReplyGroupList) {}
   rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
   rpc GetList(RequestPage) returns (ReplyGroupList) {}
+  rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
   rpc UpdateBase(ReqGroupUpdate) returns (ReplyInfo) {}
   rpc UpdateMaster(RequestFlag) returns (ReplyInfo) {}
   rpc UpdateAssistant(RequestFlag) returns (ReplyInfo) {}

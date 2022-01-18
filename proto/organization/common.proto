@@ -78,3 +78,10 @@ message ReplyList {
   repeated string list = 2;
   ReplyStatus status = 3;
 }
+
+message ReplyStatistic {
+  ReplyStatus status = 1;
+  string key = 2;
+  string owner = 3;
+  uint32 count = 4;
+}

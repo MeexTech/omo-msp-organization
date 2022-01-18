@@ -40,6 +40,7 @@ type GroupService interface {
 	GetByContact(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyGroupList, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetList(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyGroupList, error)
+	GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error)
 	UpdateBase(ctx context.Context, in *ReqGroupUpdate, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateMaster(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateAssistant(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
@@ -115,6 +116,16 @@ func (c *groupService) RemoveOne(ctx context.Context, in *RequestInfo, opts ...c
 func (c *groupService) GetList(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyGroupList, error) {
 	req := c.c.NewRequest(c.name, "GroupService.GetList", in)
 	out := new(ReplyGroupList)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *groupService) GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error) {
+	req := c.c.NewRequest(c.name, "GroupService.GetStatistic", in)
+	out := new(ReplyStatistic)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -211,6 +222,7 @@ type GroupServiceHandler interface {
 	GetByContact(context.Context, *RequestInfo, *ReplyGroupList) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetList(context.Context, *RequestPage, *ReplyGroupList) error
+	GetStatistic(context.Context, *RequestFilter, *ReplyStatistic) error
 	UpdateBase(context.Context, *ReqGroupUpdate, *ReplyInfo) error
 	UpdateMaster(context.Context, *RequestFlag, *ReplyInfo) error
 	UpdateAssistant(context.Context, *RequestFlag, *ReplyInfo) error
@@ -229,6 +241,7 @@ func RegisterGroupServiceHandler(s server.Server, hdlr GroupServiceHandler, opts
 		GetByContact(ctx context.Context, in *RequestInfo, out *ReplyGroupList) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetList(ctx context.Context, in *RequestPage, out *ReplyGroupList) error
+		GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error
 		UpdateBase(ctx context.Context, in *ReqGroupUpdate, out *ReplyInfo) error
 		UpdateMaster(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
 		UpdateAssistant(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
@@ -271,6 +284,10 @@ func (h *groupServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo, ou
 
 func (h *groupServiceHandler) GetList(ctx context.Context, in *RequestPage, out *ReplyGroupList) error {
 	return h.GroupServiceHandler.GetList(ctx, in, out)
+}
+
+func (h *groupServiceHandler) GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error {
+	return h.GroupServiceHandler.GetStatistic(ctx, in, out)
 }
 
 func (h *groupServiceHandler) UpdateBase(ctx context.Context, in *ReqGroupUpdate, out *ReplyInfo) error {

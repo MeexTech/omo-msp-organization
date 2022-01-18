@@ -41,6 +41,7 @@ type SceneService interface {
 	IsMasterUsed(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyMasterUsed, error)
 	GetList(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplySceneList, error)
 	GetByFilter(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplySceneList, error)
+	GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error)
 	UpdateBase(ctx context.Context, in *ReqSceneUpdate, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateStatus(ctx context.Context, in *ReqSceneStatus, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateAddress(ctx context.Context, in *RequestAddress, opts ...client.CallOption) (*ReplySceneOne, error)
@@ -133,6 +134,16 @@ func (c *sceneService) GetList(ctx context.Context, in *RequestPage, opts ...cli
 func (c *sceneService) GetByFilter(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplySceneList, error) {
 	req := c.c.NewRequest(c.name, "SceneService.GetByFilter", in)
 	out := new(ReplySceneList)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sceneService) GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error) {
+	req := c.c.NewRequest(c.name, "SceneService.GetStatistic", in)
+	out := new(ReplyStatistic)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -300,6 +311,7 @@ type SceneServiceHandler interface {
 	IsMasterUsed(context.Context, *RequestInfo, *ReplyMasterUsed) error
 	GetList(context.Context, *RequestPage, *ReplySceneList) error
 	GetByFilter(context.Context, *RequestFilter, *ReplySceneList) error
+	GetStatistic(context.Context, *RequestFilter, *ReplyStatistic) error
 	UpdateBase(context.Context, *ReqSceneUpdate, *ReplyInfo) error
 	UpdateStatus(context.Context, *ReqSceneStatus, *ReplyInfo) error
 	UpdateAddress(context.Context, *RequestAddress, *ReplySceneOne) error
@@ -326,6 +338,7 @@ func RegisterSceneServiceHandler(s server.Server, hdlr SceneServiceHandler, opts
 		IsMasterUsed(ctx context.Context, in *RequestInfo, out *ReplyMasterUsed) error
 		GetList(ctx context.Context, in *RequestPage, out *ReplySceneList) error
 		GetByFilter(ctx context.Context, in *RequestFilter, out *ReplySceneList) error
+		GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error
 		UpdateBase(ctx context.Context, in *ReqSceneUpdate, out *ReplyInfo) error
 		UpdateStatus(ctx context.Context, in *ReqSceneStatus, out *ReplyInfo) error
 		UpdateAddress(ctx context.Context, in *RequestAddress, out *ReplySceneOne) error
@@ -379,6 +392,10 @@ func (h *sceneServiceHandler) GetList(ctx context.Context, in *RequestPage, out 
 
 func (h *sceneServiceHandler) GetByFilter(ctx context.Context, in *RequestFilter, out *ReplySceneList) error {
 	return h.SceneServiceHandler.GetByFilter(ctx, in, out)
+}
+
+func (h *sceneServiceHandler) GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error {
+	return h.SceneServiceHandler.GetStatistic(ctx, in, out)
 }
 
 func (h *sceneServiceHandler) UpdateBase(ctx context.Context, in *ReqSceneUpdate, out *ReplyInfo) error {
