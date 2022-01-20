@@ -19,13 +19,14 @@ service SceneService {
   rpc UpdateLocation(RequestFlag) returns (ReplyInfo) {}
   rpc AppendMember(RequestInfo) returns (ReplyList) {}
   rpc SubtractMember(RequestInfo) returns (ReplyList) {}
-  rpc PutOnDisplay(RequestInfo) returns (ReplySceneDisplays) {}
-  rpc CancelDisplay(RequestInfo) returns (ReplySceneDisplays) {}
-  rpc UpdateDisplay(ReqSceneDisplay) returns (ReplySceneDisplays) {}
+//  rpc PutOnDisplay(RequestInfo) returns (ReplySceneDisplays) {}
+//  rpc CancelDisplay(RequestInfo) returns (ReplySceneDisplays) {}
+//  rpc UpdateDisplay(ReqSceneDisplay) returns (ReplySceneDisplays) {}
   rpc UpdateParents(RequestList) returns (ReplyList) {}
   rpc UpdateSupporter(RequestFlag) returns (ReplyInfo) {}
   rpc UpdateDomain(RequestFlag) returns (ReplyInfo) {}
   rpc UpdateShortName(RequestFlag) returns (ReplyInfo) {}
+  rpc UpdateBucket(RequestFlag) returns (ReplyInfo) {}
   rpc AppendDevice(ReqSceneDevice) returns (ReplySceneDevices) {}
   rpc SubtractDevice(ReqSceneDevice) returns (ReplySceneDevices) {}
 }
@@ -49,10 +50,11 @@ message SceneInfo {
   AddressInfo address = 16;
   string supporter = 17;
   string domain = 19;
-  repeated string members = 20;
-  repeated ExhibitInfo exhibitions = 21;
+  string bucket = 20;
+  repeated string members = 21;
   repeated string parents = 22;
   repeated DeviceInfo devices = 23;
+//  repeated ExhibitInfo exhibitions = 24;
 }
 
 message DeviceInfo {
@@ -128,19 +130,19 @@ message ReqSceneStatus{
   string operator = 3;
 }
 
-message ReqSceneDisplay{
-  string scene = 1;
-  string uid = 2;
-  string key = 3;
-  string skin = 4;
-  string operator = 5;
-  repeated string slots = 6;
-}
-
-message ReplySceneDisplays{
-  ReplyStatus status = 1;
-  string uid = 2;
-  repeated ExhibitInfo list = 3;
-}
+//message ReqSceneDisplay{
+//  string scene = 1;
+//  string uid = 2;
+//  string key = 3;
+//  string skin = 4;
+//  string operator = 5;
+//  repeated string slots = 6;
+//}
+//
+//message ReplySceneDisplays{
+//  ReplyStatus status = 1;
+//  string uid = 2;
+//  repeated ExhibitInfo list = 3;
+//}
 
 

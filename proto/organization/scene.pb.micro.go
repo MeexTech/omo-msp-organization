@@ -48,13 +48,14 @@ type SceneService interface {
 	UpdateLocation(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
 	AppendMember(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyList, error)
 	SubtractMember(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyList, error)
-	PutOnDisplay(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplySceneDisplays, error)
-	CancelDisplay(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplySceneDisplays, error)
-	UpdateDisplay(ctx context.Context, in *ReqSceneDisplay, opts ...client.CallOption) (*ReplySceneDisplays, error)
+	//  rpc PutOnDisplay(RequestInfo) returns (ReplySceneDisplays) {}
+	//  rpc CancelDisplay(RequestInfo) returns (ReplySceneDisplays) {}
+	//  rpc UpdateDisplay(ReqSceneDisplay) returns (ReplySceneDisplays) {}
 	UpdateParents(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyList, error)
 	UpdateSupporter(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateDomain(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateShortName(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateBucket(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
 	AppendDevice(ctx context.Context, in *ReqSceneDevice, opts ...client.CallOption) (*ReplySceneDevices, error)
 	SubtractDevice(ctx context.Context, in *ReqSceneDevice, opts ...client.CallOption) (*ReplySceneDevices, error)
 }
@@ -211,36 +212,6 @@ func (c *sceneService) SubtractMember(ctx context.Context, in *RequestInfo, opts
 	return out, nil
 }
 
-func (c *sceneService) PutOnDisplay(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplySceneDisplays, error) {
-	req := c.c.NewRequest(c.name, "SceneService.PutOnDisplay", in)
-	out := new(ReplySceneDisplays)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *sceneService) CancelDisplay(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplySceneDisplays, error) {
-	req := c.c.NewRequest(c.name, "SceneService.CancelDisplay", in)
-	out := new(ReplySceneDisplays)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *sceneService) UpdateDisplay(ctx context.Context, in *ReqSceneDisplay, opts ...client.CallOption) (*ReplySceneDisplays, error) {
-	req := c.c.NewRequest(c.name, "SceneService.UpdateDisplay", in)
-	out := new(ReplySceneDisplays)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *sceneService) UpdateParents(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyList, error) {
 	req := c.c.NewRequest(c.name, "SceneService.UpdateParents", in)
 	out := new(ReplyList)
@@ -273,6 +244,16 @@ func (c *sceneService) UpdateDomain(ctx context.Context, in *RequestFlag, opts .
 
 func (c *sceneService) UpdateShortName(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error) {
 	req := c.c.NewRequest(c.name, "SceneService.UpdateShortName", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sceneService) UpdateBucket(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "SceneService.UpdateBucket", in)
 	out := new(ReplyInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -318,13 +299,14 @@ type SceneServiceHandler interface {
 	UpdateLocation(context.Context, *RequestFlag, *ReplyInfo) error
 	AppendMember(context.Context, *RequestInfo, *ReplyList) error
 	SubtractMember(context.Context, *RequestInfo, *ReplyList) error
-	PutOnDisplay(context.Context, *RequestInfo, *ReplySceneDisplays) error
-	CancelDisplay(context.Context, *RequestInfo, *ReplySceneDisplays) error
-	UpdateDisplay(context.Context, *ReqSceneDisplay, *ReplySceneDisplays) error
+	//  rpc PutOnDisplay(RequestInfo) returns (ReplySceneDisplays) {}
+	//  rpc CancelDisplay(RequestInfo) returns (ReplySceneDisplays) {}
+	//  rpc UpdateDisplay(ReqSceneDisplay) returns (ReplySceneDisplays) {}
 	UpdateParents(context.Context, *RequestList, *ReplyList) error
 	UpdateSupporter(context.Context, *RequestFlag, *ReplyInfo) error
 	UpdateDomain(context.Context, *RequestFlag, *ReplyInfo) error
 	UpdateShortName(context.Context, *RequestFlag, *ReplyInfo) error
+	UpdateBucket(context.Context, *RequestFlag, *ReplyInfo) error
 	AppendDevice(context.Context, *ReqSceneDevice, *ReplySceneDevices) error
 	SubtractDevice(context.Context, *ReqSceneDevice, *ReplySceneDevices) error
 }
@@ -345,13 +327,11 @@ func RegisterSceneServiceHandler(s server.Server, hdlr SceneServiceHandler, opts
 		UpdateLocation(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
 		AppendMember(ctx context.Context, in *RequestInfo, out *ReplyList) error
 		SubtractMember(ctx context.Context, in *RequestInfo, out *ReplyList) error
-		PutOnDisplay(ctx context.Context, in *RequestInfo, out *ReplySceneDisplays) error
-		CancelDisplay(ctx context.Context, in *RequestInfo, out *ReplySceneDisplays) error
-		UpdateDisplay(ctx context.Context, in *ReqSceneDisplay, out *ReplySceneDisplays) error
 		UpdateParents(ctx context.Context, in *RequestList, out *ReplyList) error
 		UpdateSupporter(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
 		UpdateDomain(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
 		UpdateShortName(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
+		UpdateBucket(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
 		AppendDevice(ctx context.Context, in *ReqSceneDevice, out *ReplySceneDevices) error
 		SubtractDevice(ctx context.Context, in *ReqSceneDevice, out *ReplySceneDevices) error
 	}
@@ -422,18 +402,6 @@ func (h *sceneServiceHandler) SubtractMember(ctx context.Context, in *RequestInf
 	return h.SceneServiceHandler.SubtractMember(ctx, in, out)
 }
 
-func (h *sceneServiceHandler) PutOnDisplay(ctx context.Context, in *RequestInfo, out *ReplySceneDisplays) error {
-	return h.SceneServiceHandler.PutOnDisplay(ctx, in, out)
-}
-
-func (h *sceneServiceHandler) CancelDisplay(ctx context.Context, in *RequestInfo, out *ReplySceneDisplays) error {
-	return h.SceneServiceHandler.CancelDisplay(ctx, in, out)
-}
-
-func (h *sceneServiceHandler) UpdateDisplay(ctx context.Context, in *ReqSceneDisplay, out *ReplySceneDisplays) error {
-	return h.SceneServiceHandler.UpdateDisplay(ctx, in, out)
-}
-
 func (h *sceneServiceHandler) UpdateParents(ctx context.Context, in *RequestList, out *ReplyList) error {
 	return h.SceneServiceHandler.UpdateParents(ctx, in, out)
 }
@@ -448,6 +416,10 @@ func (h *sceneServiceHandler) UpdateDomain(ctx context.Context, in *RequestFlag,
 
 func (h *sceneServiceHandler) UpdateShortName(ctx context.Context, in *RequestFlag, out *ReplyInfo) error {
 	return h.SceneServiceHandler.UpdateShortName(ctx, in, out)
+}
+
+func (h *sceneServiceHandler) UpdateBucket(ctx context.Context, in *RequestFlag, out *ReplyInfo) error {
+	return h.SceneServiceHandler.UpdateBucket(ctx, in, out)
 }
 
 func (h *sceneServiceHandler) AppendDevice(ctx context.Context, in *ReqSceneDevice, out *ReplySceneDevices) error {
