@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package omo.msp.scene;
+option go_package= "proto/organization";
+import "proto/organization/common.proto";
+
+service RoomService {
+  rpc AddOne(ReqRoomAdd) returns (ReplyRoomInfo) {}
+  rpc UpdateBase(ReqRoomUpdate) returns (ReplyInfo) {}
+  rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
+  rpc GetOne(RequestInfo) returns (ReplyRoomInfo) {}
+  rpc GetList(RequestFilter) returns (ReplyRoomList) {}
+  rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
+  rpc AppendDevice(ReqRoomDevice) returns (ReplyRoomDevices) {}
+  rpc SubtractDevice(ReqRoomDevice) returns (ReplyRoomDevices) {}
+}
+
+message RoomInfo {
+  string uid = 1;
+  uint64 id = 2;
+  string name = 3;
+  int64 created = 4;
+  int64 updated = 5;
+  string creator = 6;
+  string operator = 7;
+  string owner = 8;
+  string remark = 9;
+  repeated string quotes = 10;
+  repeated DeviceInfo devices = 11;
+}
+
+message DeviceInfo {
+  uint32 type = 1;
+  string uid = 2;
+  string remark = 3;
+}
+
+message ReqRoomAdd {
+  string owner = 1;
+  string name = 2;
+  string remark = 3;
+  string operator = 4;
+}
+
+message ReqRoomUpdate{
+  string uid = 1;
+  string name = 2;
+  string remark = 3;
+  string operator = 4;
+}
+
+message ReqRoomDevice {
+  string uid = 1;
+  string operator = 2;
+  string device = 3;
+  uint32 type = 4;
+  string remark = 5;
+}
+
+message ReplyRoomDevices {
+  ReplyStatus status = 1;
+  repeated DeviceInfo list = 2;
+}
+
+message ReplyRoomInfo{
+  ReplyStatus status = 1;
+  RoomInfo info = 2;
+}
+
+message ReplyRoomList{
+  ReplyStatus status = 1;
+  repeated RoomInfo list = 2;
+}

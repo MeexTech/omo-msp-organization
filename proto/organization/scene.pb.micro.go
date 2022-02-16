@@ -56,8 +56,6 @@ type SceneService interface {
 	UpdateDomain(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateShortName(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateBucket(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
-	AppendDevice(ctx context.Context, in *ReqSceneDevice, opts ...client.CallOption) (*ReplySceneDevices, error)
-	SubtractDevice(ctx context.Context, in *ReqSceneDevice, opts ...client.CallOption) (*ReplySceneDevices, error)
 }
 
 type sceneService struct {
@@ -262,26 +260,6 @@ func (c *sceneService) UpdateBucket(ctx context.Context, in *RequestFlag, opts .
 	return out, nil
 }
 
-func (c *sceneService) AppendDevice(ctx context.Context, in *ReqSceneDevice, opts ...client.CallOption) (*ReplySceneDevices, error) {
-	req := c.c.NewRequest(c.name, "SceneService.AppendDevice", in)
-	out := new(ReplySceneDevices)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *sceneService) SubtractDevice(ctx context.Context, in *ReqSceneDevice, opts ...client.CallOption) (*ReplySceneDevices, error) {
-	req := c.c.NewRequest(c.name, "SceneService.SubtractDevice", in)
-	out := new(ReplySceneDevices)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // Server API for SceneService service
 
 type SceneServiceHandler interface {
@@ -307,8 +285,6 @@ type SceneServiceHandler interface {
 	UpdateDomain(context.Context, *RequestFlag, *ReplyInfo) error
 	UpdateShortName(context.Context, *RequestFlag, *ReplyInfo) error
 	UpdateBucket(context.Context, *RequestFlag, *ReplyInfo) error
-	AppendDevice(context.Context, *ReqSceneDevice, *ReplySceneDevices) error
-	SubtractDevice(context.Context, *ReqSceneDevice, *ReplySceneDevices) error
 }
 
 func RegisterSceneServiceHandler(s server.Server, hdlr SceneServiceHandler, opts ...server.HandlerOption) error {
@@ -332,8 +308,6 @@ func RegisterSceneServiceHandler(s server.Server, hdlr SceneServiceHandler, opts
 		UpdateDomain(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
 		UpdateShortName(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
 		UpdateBucket(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
-		AppendDevice(ctx context.Context, in *ReqSceneDevice, out *ReplySceneDevices) error
-		SubtractDevice(ctx context.Context, in *ReqSceneDevice, out *ReplySceneDevices) error
 	}
 	type SceneService struct {
 		sceneService
@@ -420,12 +394,4 @@ func (h *sceneServiceHandler) UpdateShortName(ctx context.Context, in *RequestFl
 
 func (h *sceneServiceHandler) UpdateBucket(ctx context.Context, in *RequestFlag, out *ReplyInfo) error {
 	return h.SceneServiceHandler.UpdateBucket(ctx, in, out)
-}
-
-func (h *sceneServiceHandler) AppendDevice(ctx context.Context, in *ReqSceneDevice, out *ReplySceneDevices) error {
-	return h.SceneServiceHandler.AppendDevice(ctx, in, out)
-}
-
-func (h *sceneServiceHandler) SubtractDevice(ctx context.Context, in *ReqSceneDevice, out *ReplySceneDevices) error {
-	return h.SceneServiceHandler.SubtractDevice(ctx, in, out)
 }
