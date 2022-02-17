@@ -13,6 +13,7 @@ service RoomService {
   rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
   rpc AppendDevice(ReqRoomDevice) returns (ReplyRoomDevices) {}
   rpc SubtractDevice(ReqRoomDevice) returns (ReplyRoomDevices) {}
+  rpc UpdateQuotes(ReqRoomQuotes) returns (ReplyRoomInfo) {}
 }
 
 message RoomInfo {
@@ -47,6 +48,13 @@ message ReqRoomUpdate{
   string name = 2;
   string remark = 3;
   string operator = 4;
+}
+
+message ReqRoomQuotes {
+  string scene = 1;
+  string room = 2;
+  string operator = 3;
+  repeated string list = 4;
 }
 
 message ReqRoomDevice {
