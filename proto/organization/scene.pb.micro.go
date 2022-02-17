@@ -53,7 +53,7 @@ type SceneService interface {
 	//  rpc UpdateDisplay(ReqSceneDisplay) returns (ReplySceneDisplays) {}
 	UpdateParents(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyList, error)
 	UpdateSupporter(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
-	UpdateDomains(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateDomains(ctx context.Context, in *ReqSceneDomains, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateShortName(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateBucket(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
 }
@@ -230,7 +230,7 @@ func (c *sceneService) UpdateSupporter(ctx context.Context, in *RequestFlag, opt
 	return out, nil
 }
 
-func (c *sceneService) UpdateDomains(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyInfo, error) {
+func (c *sceneService) UpdateDomains(ctx context.Context, in *ReqSceneDomains, opts ...client.CallOption) (*ReplyInfo, error) {
 	req := c.c.NewRequest(c.name, "SceneService.UpdateDomains", in)
 	out := new(ReplyInfo)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -282,7 +282,7 @@ type SceneServiceHandler interface {
 	//  rpc UpdateDisplay(ReqSceneDisplay) returns (ReplySceneDisplays) {}
 	UpdateParents(context.Context, *RequestList, *ReplyList) error
 	UpdateSupporter(context.Context, *RequestFlag, *ReplyInfo) error
-	UpdateDomains(context.Context, *RequestList, *ReplyInfo) error
+	UpdateDomains(context.Context, *ReqSceneDomains, *ReplyInfo) error
 	UpdateShortName(context.Context, *RequestFlag, *ReplyInfo) error
 	UpdateBucket(context.Context, *RequestFlag, *ReplyInfo) error
 }
@@ -305,7 +305,7 @@ func RegisterSceneServiceHandler(s server.Server, hdlr SceneServiceHandler, opts
 		SubtractMember(ctx context.Context, in *RequestInfo, out *ReplyList) error
 		UpdateParents(ctx context.Context, in *RequestList, out *ReplyList) error
 		UpdateSupporter(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
-		UpdateDomains(ctx context.Context, in *RequestList, out *ReplyInfo) error
+		UpdateDomains(ctx context.Context, in *ReqSceneDomains, out *ReplyInfo) error
 		UpdateShortName(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
 		UpdateBucket(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
 	}
@@ -384,7 +384,7 @@ func (h *sceneServiceHandler) UpdateSupporter(ctx context.Context, in *RequestFl
 	return h.SceneServiceHandler.UpdateSupporter(ctx, in, out)
 }
 
-func (h *sceneServiceHandler) UpdateDomains(ctx context.Context, in *RequestList, out *ReplyInfo) error {
+func (h *sceneServiceHandler) UpdateDomains(ctx context.Context, in *ReqSceneDomains, out *ReplyInfo) error {
 	return h.SceneServiceHandler.UpdateDomains(ctx, in, out)
 }
 

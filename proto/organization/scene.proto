@@ -24,7 +24,7 @@ service SceneService {
 //  rpc UpdateDisplay(ReqSceneDisplay) returns (ReplySceneDisplays) {}
   rpc UpdateParents(RequestList) returns (ReplyList) {}
   rpc UpdateSupporter(RequestFlag) returns (ReplyInfo) {}
-  rpc UpdateDomains(RequestList) returns (ReplyInfo) {}
+  rpc UpdateDomains(ReqSceneDomains) returns (ReplyInfo) {}
   rpc UpdateShortName(RequestFlag) returns (ReplyInfo) {}
   rpc UpdateBucket(RequestFlag) returns (ReplyInfo) {}
 }
@@ -105,6 +105,12 @@ message ReqSceneStatus{
   string uid = 1;
   int32 status = 2;
   string operator = 3;
+}
+
+message ReqSceneDomains{
+  string uid = 1;
+  string operator = 2;
+  repeated ProductInfo list = 3;
 }
 
 //message ReqSceneDisplay{
