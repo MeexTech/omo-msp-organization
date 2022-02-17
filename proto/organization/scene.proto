@@ -24,7 +24,7 @@ service SceneService {
 //  rpc UpdateDisplay(ReqSceneDisplay) returns (ReplySceneDisplays) {}
   rpc UpdateParents(RequestList) returns (ReplyList) {}
   rpc UpdateSupporter(RequestFlag) returns (ReplyInfo) {}
-  rpc UpdateDomain(RequestFlag) returns (ReplyInfo) {}
+  rpc UpdateDomains(RequestList) returns (ReplyInfo) {}
   rpc UpdateShortName(RequestFlag) returns (ReplyInfo) {}
   rpc UpdateBucket(RequestFlag) returns (ReplyInfo) {}
 }
@@ -47,10 +47,10 @@ message SceneInfo {
   string short = 15;
   AddressInfo address = 16;
   string supporter = 17;
-  string domain = 19;
-  string bucket = 20;
+  string bucket = 19;
+  repeated string parents = 20;
   repeated string members = 21;
-  repeated string parents = 22;
+  repeated ProductInfo domains = 22;
 }
 
 message ExhibitInfo {
