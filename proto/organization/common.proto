@@ -42,8 +42,9 @@ message RequestFilter {
 }
 
 message DisplayInfo {
-  string owner = 1;
-  repeated string list = 2;
+  string group = 1;
+  repeated string prepares = 2;
+  repeated string showings = 3;
 }
 
 message ProductInfo {
