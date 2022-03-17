@@ -42,7 +42,8 @@ type RoomService interface {
 	GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error)
 	AppendDevice(ctx context.Context, in *ReqRoomDevice, opts ...client.CallOption) (*ReplyRoomDevices, error)
 	SubtractDevice(ctx context.Context, in *ReqRoomDevice, opts ...client.CallOption) (*ReplyRoomDevices, error)
-	UpdateQuotes(ctx context.Context, in *ReqRoomQuotes, opts ...client.CallOption) (*ReplyRoomInfo, error)
+	UpdateQuotes(ctx context.Context, in *ReqRoomQuotes, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateDisplays(ctx context.Context, in *ReqRoomDisplays, opts ...client.CallOption) (*ReplyInfo, error)
 }
 
 type roomService struct {
@@ -137,9 +138,19 @@ func (c *roomService) SubtractDevice(ctx context.Context, in *ReqRoomDevice, opt
 	return out, nil
 }
 
-func (c *roomService) UpdateQuotes(ctx context.Context, in *ReqRoomQuotes, opts ...client.CallOption) (*ReplyRoomInfo, error) {
+func (c *roomService) UpdateQuotes(ctx context.Context, in *ReqRoomQuotes, opts ...client.CallOption) (*ReplyInfo, error) {
 	req := c.c.NewRequest(c.name, "RoomService.UpdateQuotes", in)
-	out := new(ReplyRoomInfo)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roomService) UpdateDisplays(ctx context.Context, in *ReqRoomDisplays, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "RoomService.UpdateDisplays", in)
+	out := new(ReplyInfo)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -158,7 +169,8 @@ type RoomServiceHandler interface {
 	GetStatistic(context.Context, *RequestFilter, *ReplyStatistic) error
 	AppendDevice(context.Context, *ReqRoomDevice, *ReplyRoomDevices) error
 	SubtractDevice(context.Context, *ReqRoomDevice, *ReplyRoomDevices) error
-	UpdateQuotes(context.Context, *ReqRoomQuotes, *ReplyRoomInfo) error
+	UpdateQuotes(context.Context, *ReqRoomQuotes, *ReplyInfo) error
+	UpdateDisplays(context.Context, *ReqRoomDisplays, *ReplyInfo) error
 }
 
 func RegisterRoomServiceHandler(s server.Server, hdlr RoomServiceHandler, opts ...server.HandlerOption) error {
@@ -171,7 +183,8 @@ func RegisterRoomServiceHandler(s server.Server, hdlr RoomServiceHandler, opts .
 		GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error
 		AppendDevice(ctx context.Context, in *ReqRoomDevice, out *ReplyRoomDevices) error
 		SubtractDevice(ctx context.Context, in *ReqRoomDevice, out *ReplyRoomDevices) error
-		UpdateQuotes(ctx context.Context, in *ReqRoomQuotes, out *ReplyRoomInfo) error
+		UpdateQuotes(ctx context.Context, in *ReqRoomQuotes, out *ReplyInfo) error
+		UpdateDisplays(ctx context.Context, in *ReqRoomDisplays, out *ReplyInfo) error
 	}
 	type RoomService struct {
 		roomService
@@ -216,6 +229,10 @@ func (h *roomServiceHandler) SubtractDevice(ctx context.Context, in *ReqRoomDevi
 	return h.RoomServiceHandler.SubtractDevice(ctx, in, out)
 }
 
-func (h *roomServiceHandler) UpdateQuotes(ctx context.Context, in *ReqRoomQuotes, out *ReplyRoomInfo) error {
+func (h *roomServiceHandler) UpdateQuotes(ctx context.Context, in *ReqRoomQuotes, out *ReplyInfo) error {
 	return h.RoomServiceHandler.UpdateQuotes(ctx, in, out)
+}
+
+func (h *roomServiceHandler) UpdateDisplays(ctx context.Context, in *ReqRoomDisplays, out *ReplyInfo) error {
+	return h.RoomServiceHandler.UpdateDisplays(ctx, in, out)
 }
