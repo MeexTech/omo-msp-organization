@@ -41,11 +41,16 @@ message RequestFilter {
   repeated string list = 6;
 }
 
+message DisplayInfo {
+  string owner = 1;
+  repeated string list = 2;
+}
+
 message ProductInfo {
   uint32 type = 1;
   string uid = 2;
   string remark = 3;
-  repeated string displays = 4;
+  repeated DisplayInfo displays = 4;
 }
 
 message ReplyStatus {

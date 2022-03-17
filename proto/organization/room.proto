@@ -31,6 +31,13 @@ message RoomInfo {
   repeated ProductInfo devices = 11;
 }
 
+message RoomDisplay {
+  string room = 1;
+  string sn = 2;
+  string owner = 3;
+  repeated string list = 4;
+}
+
 message ReqRoomAdd {
   string owner = 1;
   string name = 2;
@@ -54,10 +61,8 @@ message ReqRoomQuotes {
 
 message ReqRoomDisplays {
   string scene = 1;
-  string room = 2;
-  string operator = 3;
-  string sn = 4;
-  repeated string list = 5;
+  string operator = 2;
+  repeated RoomDisplay rooms = 3;
 }
 
 message ReqRoomDevice {
