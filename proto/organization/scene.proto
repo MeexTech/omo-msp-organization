@@ -53,12 +53,12 @@ message SceneInfo {
   repeated ProductInfo domains = 22;
 }
 
-message ExhibitInfo {
-  string uid = 1;
-  string effect = 2;
-  string skin = 4;
-  repeated string slots = 3;
-}
+//message ExhibitInfo {
+//  string uid = 1;
+//  string effect = 2;
+//  string skin = 4;
+//  repeated string slots = 3;
+//}
 
 message ReqSceneAdd{
   string name = 1;
