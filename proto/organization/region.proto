@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package omo.msp.scene;
+option go_package= "proto/organization";
+import "proto/organization/common.proto";
+
+service RegionService {
+  rpc AddOne(ReqRegionAdd) returns (ReplyRegionOne) {}
+  rpc GetOne(RequestInfo) returns (ReplyRegionOne) {}
+  rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
+  rpc GetList(RequestFilter) returns (ReplyRegionList) {}
+  rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
+  rpc UpdateBase(ReqRegionUpdate) returns (ReplyInfo) {}
+  rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
+  rpc UpdateAddress(RequestAddress) returns (ReplyRegionOne) {}
+  rpc AppendMember(RequestInfo) returns (ReplyList) {}
+  rpc SubtractMember(RequestInfo) returns (ReplyList) {}
+}
+
+message RegionInfo {
+  string uid = 1;
+  uint64 id = 2;
+  int64 created = 3;
+  int64 updated = 4;
+  string creator = 5;
+  string operator = 6;
+  string name = 7;
+  string remark = 8;
+  string scene = 9;
+  string entity = 10;
+  string parent = 11;
+  string location = 12;
+  string master = 13;
+  AddressInfo address = 14;
+  repeated string members = 15;
+}
+
+message ReqRegionAdd {
+  string name = 1;
+  string scene = 2;
+  string entity = 3;
+  string parent = 4;
+  string remark = 5;
+  string location = 6;
+  string master = 8;
+  string operator = 9;
+  AddressInfo address = 10;
+}
+
+message ReqRegionUpdate{
+  string uid = 1;
+  string name = 2;
+  string remark = 3;
+  string operator = 4;
+}
+
+message ReplyRegionOne{
+  ReplyStatus status = 1;
+  RegionInfo info = 2;
+}
+
+message ReplyRegionList{
+  uint32 total = 1;
+  uint32 pageMax = 2;
+  uint32 pageNow = 3;
+  ReplyStatus status = 4;
+  repeated RegionInfo list = 5;
+}

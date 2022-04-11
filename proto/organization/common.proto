@@ -33,12 +33,21 @@ message RequestPage{
 }
 
 message RequestFilter {
-  string parent = 1;
+  string scene = 1;
   string key = 2;
   string value = 3;
   uint32 page = 4;
   uint32 number = 5;
   repeated string list = 6;
+}
+
+message ReqUpdateFilter {
+  string scene = 1;
+  string uid = 2;
+  string key = 3;
+  string value = 4;
+  string operator = 5;
+  repeated string values = 6;
 }
 
 message DisplayInfo {
