@@ -56,6 +56,7 @@ type SceneService interface {
 	UpdateDomains(ctx context.Context, in *ReqSceneDomains, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateShortName(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateBucket(ctx context.Context, in *RequestFlag, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error)
 }
 
 type sceneService struct {
@@ -260,6 +261,16 @@ func (c *sceneService) UpdateBucket(ctx context.Context, in *RequestFlag, opts .
 	return out, nil
 }
 
+func (c *sceneService) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "SceneService.UpdateByFilter", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for SceneService service
 
 type SceneServiceHandler interface {
@@ -285,6 +296,7 @@ type SceneServiceHandler interface {
 	UpdateDomains(context.Context, *ReqSceneDomains, *ReplyInfo) error
 	UpdateShortName(context.Context, *RequestFlag, *ReplyInfo) error
 	UpdateBucket(context.Context, *RequestFlag, *ReplyInfo) error
+	UpdateByFilter(context.Context, *ReqUpdateFilter, *ReplyInfo) error
 }
 
 func RegisterSceneServiceHandler(s server.Server, hdlr SceneServiceHandler, opts ...server.HandlerOption) error {
@@ -308,6 +320,7 @@ func RegisterSceneServiceHandler(s server.Server, hdlr SceneServiceHandler, opts
 		UpdateDomains(ctx context.Context, in *ReqSceneDomains, out *ReplyInfo) error
 		UpdateShortName(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
 		UpdateBucket(ctx context.Context, in *RequestFlag, out *ReplyInfo) error
+		UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error
 	}
 	type SceneService struct {
 		sceneService
@@ -394,4 +407,8 @@ func (h *sceneServiceHandler) UpdateShortName(ctx context.Context, in *RequestFl
 
 func (h *sceneServiceHandler) UpdateBucket(ctx context.Context, in *RequestFlag, out *ReplyInfo) error {
 	return h.SceneServiceHandler.UpdateBucket(ctx, in, out)
+}
+
+func (h *sceneServiceHandler) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error {
+	return h.SceneServiceHandler.UpdateByFilter(ctx, in, out)
 }

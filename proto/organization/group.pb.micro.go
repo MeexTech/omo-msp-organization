@@ -49,6 +49,7 @@ type GroupService interface {
 	UpdateAddress(ctx context.Context, in *RequestAddress, opts ...client.CallOption) (*ReplyGroupOne, error)
 	AppendMember(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyList, error)
 	SubtractMember(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyList, error)
+	UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error)
 }
 
 type groupService struct {
@@ -213,6 +214,16 @@ func (c *groupService) SubtractMember(ctx context.Context, in *RequestInfo, opts
 	return out, nil
 }
 
+func (c *groupService) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "GroupService.UpdateByFilter", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for GroupService service
 
 type GroupServiceHandler interface {
@@ -231,6 +242,7 @@ type GroupServiceHandler interface {
 	UpdateAddress(context.Context, *RequestAddress, *ReplyGroupOne) error
 	AppendMember(context.Context, *RequestInfo, *ReplyList) error
 	SubtractMember(context.Context, *RequestInfo, *ReplyList) error
+	UpdateByFilter(context.Context, *ReqUpdateFilter, *ReplyInfo) error
 }
 
 func RegisterGroupServiceHandler(s server.Server, hdlr GroupServiceHandler, opts ...server.HandlerOption) error {
@@ -250,6 +262,7 @@ func RegisterGroupServiceHandler(s server.Server, hdlr GroupServiceHandler, opts
 		UpdateAddress(ctx context.Context, in *RequestAddress, out *ReplyGroupOne) error
 		AppendMember(ctx context.Context, in *RequestInfo, out *ReplyList) error
 		SubtractMember(ctx context.Context, in *RequestInfo, out *ReplyList) error
+		UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error
 	}
 	type GroupService struct {
 		groupService
@@ -320,4 +333,8 @@ func (h *groupServiceHandler) AppendMember(ctx context.Context, in *RequestInfo,
 
 func (h *groupServiceHandler) SubtractMember(ctx context.Context, in *RequestInfo, out *ReplyList) error {
 	return h.GroupServiceHandler.SubtractMember(ctx, in, out)
+}
+
+func (h *groupServiceHandler) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error {
+	return h.GroupServiceHandler.UpdateByFilter(ctx, in, out)
 }

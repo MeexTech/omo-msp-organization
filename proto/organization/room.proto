@@ -15,6 +15,7 @@ service RoomService {
   rpc SubtractDevice(ReqRoomDevice) returns (ReplyRoomDevices) {}
   rpc UpdateQuotes(ReqRoomQuotes) returns (ReplyInfo) {}
   rpc UpdateDisplays(ReqRoomDisplays) returns (ReplyInfo) {}
+  rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
 }
 
 message RoomInfo {
@@ -72,6 +73,7 @@ message ReqRoomDevice {
   string device = 3;
   uint32 type = 4;
   string remark = 5;
+  string area = 6;
 }
 
 message ReplyRoomDevices {

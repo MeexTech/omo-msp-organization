@@ -44,6 +44,7 @@ type RoomService interface {
 	SubtractDevice(ctx context.Context, in *ReqRoomDevice, opts ...client.CallOption) (*ReplyRoomDevices, error)
 	UpdateQuotes(ctx context.Context, in *ReqRoomQuotes, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateDisplays(ctx context.Context, in *ReqRoomDisplays, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error)
 }
 
 type roomService struct {
@@ -158,6 +159,16 @@ func (c *roomService) UpdateDisplays(ctx context.Context, in *ReqRoomDisplays, o
 	return out, nil
 }
 
+func (c *roomService) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "RoomService.UpdateByFilter", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for RoomService service
 
 type RoomServiceHandler interface {
@@ -171,6 +182,7 @@ type RoomServiceHandler interface {
 	SubtractDevice(context.Context, *ReqRoomDevice, *ReplyRoomDevices) error
 	UpdateQuotes(context.Context, *ReqRoomQuotes, *ReplyInfo) error
 	UpdateDisplays(context.Context, *ReqRoomDisplays, *ReplyInfo) error
+	UpdateByFilter(context.Context, *ReqUpdateFilter, *ReplyInfo) error
 }
 
 func RegisterRoomServiceHandler(s server.Server, hdlr RoomServiceHandler, opts ...server.HandlerOption) error {
@@ -185,6 +197,7 @@ func RegisterRoomServiceHandler(s server.Server, hdlr RoomServiceHandler, opts .
 		SubtractDevice(ctx context.Context, in *ReqRoomDevice, out *ReplyRoomDevices) error
 		UpdateQuotes(ctx context.Context, in *ReqRoomQuotes, out *ReplyInfo) error
 		UpdateDisplays(ctx context.Context, in *ReqRoomDisplays, out *ReplyInfo) error
+		UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error
 	}
 	type RoomService struct {
 		roomService
@@ -235,4 +248,8 @@ func (h *roomServiceHandler) UpdateQuotes(ctx context.Context, in *ReqRoomQuotes
 
 func (h *roomServiceHandler) UpdateDisplays(ctx context.Context, in *ReqRoomDisplays, out *ReplyInfo) error {
 	return h.RoomServiceHandler.UpdateDisplays(ctx, in, out)
+}
+
+func (h *roomServiceHandler) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error {
+	return h.RoomServiceHandler.UpdateByFilter(ctx, in, out)
 }

@@ -20,6 +20,7 @@ service GroupService {
   rpc UpdateAddress(RequestAddress) returns (ReplyGroupOne) {}
   rpc AppendMember(RequestInfo) returns (ReplyList) {}
   rpc SubtractMember(RequestInfo) returns (ReplyList) {}
+  rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
 }
 
 message GroupInfo {

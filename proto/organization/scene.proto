@@ -27,6 +27,7 @@ service SceneService {
   rpc UpdateDomains(ReqSceneDomains) returns (ReplyInfo) {}
   rpc UpdateShortName(RequestFlag) returns (ReplyInfo) {}
   rpc UpdateBucket(RequestFlag) returns (ReplyInfo) {}
+  rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
 }
 
 message SceneInfo {
