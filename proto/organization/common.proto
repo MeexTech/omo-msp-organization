@@ -62,6 +62,7 @@ message ProductInfo {
   string remark = 3;
   string keywords = 4;
   string name = 5;
+  string area = 7;
   repeated DisplayInfo displays = 6;
 }
 
