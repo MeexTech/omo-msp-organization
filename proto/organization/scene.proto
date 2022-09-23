@@ -51,6 +51,7 @@ message SceneInfo {
   string bucket = 19;
   repeated string parents = 20;
   repeated string members = 21;
+  repeated string questions = 23;
   repeated ProductInfo domains = 22;
 }
 
