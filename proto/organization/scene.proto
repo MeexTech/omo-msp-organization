@@ -49,6 +49,7 @@ message SceneInfo {
   AddressInfo address = 16;
   string supporter = 17;
   string bucket = 19;
+  uint32 limit = 24;
   repeated string parents = 20;
   repeated string members = 21;
   repeated string questions = 23;
