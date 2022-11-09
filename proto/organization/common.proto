@@ -65,6 +65,7 @@ message ProductInfo {
   string area = 7;
   string question = 8;
   string room = 9;
+  string sn = 10;
   repeated DisplayInfo displays = 6;
 }
 

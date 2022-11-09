@@ -28,6 +28,9 @@ message AreaInfo {
   string owner = 9;
   string parent = 10;
   string template = 11;
+  string sn = 12;
+  string question = 13;
+  repeated string displays = 14;
 }
 
 message ReqAreaAdd {

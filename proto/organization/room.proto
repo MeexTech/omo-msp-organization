@@ -30,7 +30,7 @@ message RoomInfo {
   string owner = 8;
   string remark = 9;
   repeated string quotes = 10;
-  repeated ProductInfo devices = 11;
+  repeated ProductInfo areas = 11;
 }
 
 message RoomDisplay {
