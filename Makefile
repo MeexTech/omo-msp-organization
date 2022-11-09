@@ -5,3 +5,4 @@ proto:
 	protoc --proto_path=. --micro_out=. --go_out=. proto/organization/common.proto
 	protoc --proto_path=. --micro_out=. --go_out=. proto/organization/room.proto
 	protoc --proto_path=. --micro_out=. --go_out=. proto/organization/region.proto
+	protoc --proto_path=. --micro_out=. --go_out=. proto/organization/area.proto
