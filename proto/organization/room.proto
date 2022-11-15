@@ -35,10 +35,8 @@ message RoomInfo {
 
 message RoomDisplay {
   string room = 1;
-  string sn = 2;
-  string group = 3;
-  bool showing = 4;
-  repeated string list = 5;
+  string area = 2;
+  repeated string list = 3;
 }
 
 message ReqRoomAdd {

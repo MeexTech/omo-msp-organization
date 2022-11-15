@@ -58,16 +58,15 @@ message DisplayInfo {
 
 message ProductInfo {
   uint32 type = 1;
-  string uid = 2;
   string remark = 3;
   string keywords = 4;
   string name = 5;
-  string area = 7;
-  string question = 8;
-  string room = 9;
-  string sn = 10;
-  string template = 11;
-  repeated DisplayInfo displays = 6;
+  string area = 6;
+  string question = 7;
+  string room = 8;
+  string sn = 9;
+  string template = 10;
+  repeated DisplayInfo displays = 11;
 }
 
 message ReplyStatus {
