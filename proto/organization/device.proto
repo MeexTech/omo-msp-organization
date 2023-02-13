@@ -28,7 +28,8 @@ message DeviceInfo {
   string sn = 10;
   string quote = 11;
   string os = 12;
-  uint32 length = 13;
+  uint32 running = 13;
+  string certificate = 14;
 }
 
 message ReqDeviceAdd {
