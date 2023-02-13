@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package omo.msp.scene;
+option go_package= "proto/organization";
+import "proto/organization/common.proto";
+
+//终端设备
+service DeviceService {
+  rpc AddOne(ReqDeviceAdd) returns (ReplyDeviceInfo) {}
+  rpc GetOne(RequestInfo) returns (ReplyDeviceInfo) {}
+  rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
+  rpc GetListByFilter(RequestFilter) returns (ReplyDeviceList) {}
+  rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
+  rpc UpdateBase(ReqDeviceBase) returns (ReplyInfo) {}
+  rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
+}
+
+message DeviceInfo {
+  uint64 id = 1;
+  string uid = 2;
+  string name = 3;
+  uint64 created = 4;
+  uint64 updated = 5;
+  string creator = 6;
+  string operator = 7;
+  string remark = 8;
+  string owner = 9;
+  string sn = 10;
+  string quote = 11;
+  string os = 12;
+  uint32 length = 13;
+}
+
+message ReqDeviceAdd {
+  string owner = 1;
+  string name = 2;
+  string remark = 3;
+  string parent = 4;
+  string operator = 5;
+}
+
+message ReqDeviceBase {
+  string uid = 1;
+  string name = 2;
+  string remark = 3;
+  string operator = 4;
+}
+
+message ReplyDeviceInfo {
+  DeviceInfo info = 1;
+  ReplyStatus status = 2;
+}
+
+message ReplyDeviceList {
+  uint32 total = 1;
+  uint32 page = 2;
+  uint32 pages = 3;
+  uint32 number = 4;
+  repeated DeviceInfo list = 5;
+  ReplyStatus status = 6;
+}
