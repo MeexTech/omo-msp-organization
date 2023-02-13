@@ -35,8 +35,10 @@ message ReqDeviceAdd {
   string owner = 1;
   string name = 2;
   string remark = 3;
-  string parent = 4;
-  string operator = 5;
+  string sn = 4;
+  string quote = 5;
+  string os = 6;
+  string operator = 7;
 }
 
 message ReqDeviceBase {
