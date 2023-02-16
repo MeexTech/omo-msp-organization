@@ -31,7 +31,8 @@ message AreaInfo {
   string sn = 12;
   string question = 13;
   uint32 type = 14;
-  repeated string displays = 15;
+  string catalog = 15;
+  repeated string displays = 16;
 }
 
 message ReqAreaAdd {

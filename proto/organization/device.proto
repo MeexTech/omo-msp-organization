@@ -30,6 +30,7 @@ message DeviceInfo {
   string os = 12;
   uint32 running = 13;
   string certificate = 14;
+  uint32 type = 15;
 }
 
 message ReqDeviceAdd {
