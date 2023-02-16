@@ -41,6 +41,7 @@ message ReqDeviceAdd {
   string name = 3;
   string remark = 4;
   string sn = 5;
+  uint32 type = 6;
 }
 
 message ReqDeviceBase {
