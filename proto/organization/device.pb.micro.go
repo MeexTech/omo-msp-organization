@@ -41,6 +41,7 @@ type DeviceService interface {
 	GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error)
 	UpdateBase(ctx context.Context, in *ReqDeviceBase, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error)
+	Bind(ctx context.Context, in *ReqDeviceBind, opts ...client.CallOption) (*ReplyInfo, error)
 }
 
 type deviceService struct {
@@ -125,6 +126,16 @@ func (c *deviceService) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter,
 	return out, nil
 }
 
+func (c *deviceService) Bind(ctx context.Context, in *ReqDeviceBind, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "DeviceService.Bind", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for DeviceService service
 
 type DeviceServiceHandler interface {
@@ -135,6 +146,7 @@ type DeviceServiceHandler interface {
 	GetStatistic(context.Context, *RequestFilter, *ReplyStatistic) error
 	UpdateBase(context.Context, *ReqDeviceBase, *ReplyInfo) error
 	UpdateByFilter(context.Context, *ReqUpdateFilter, *ReplyInfo) error
+	Bind(context.Context, *ReqDeviceBind, *ReplyInfo) error
 }
 
 func RegisterDeviceServiceHandler(s server.Server, hdlr DeviceServiceHandler, opts ...server.HandlerOption) error {
@@ -146,6 +158,7 @@ func RegisterDeviceServiceHandler(s server.Server, hdlr DeviceServiceHandler, op
 		GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error
 		UpdateBase(ctx context.Context, in *ReqDeviceBase, out *ReplyInfo) error
 		UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error
+		Bind(ctx context.Context, in *ReqDeviceBind, out *ReplyInfo) error
 	}
 	type DeviceService struct {
 		deviceService
@@ -184,4 +197,8 @@ func (h *deviceServiceHandler) UpdateBase(ctx context.Context, in *ReqDeviceBase
 
 func (h *deviceServiceHandler) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error {
 	return h.DeviceServiceHandler.UpdateByFilter(ctx, in, out)
+}
+
+func (h *deviceServiceHandler) Bind(ctx context.Context, in *ReqDeviceBind, out *ReplyInfo) error {
+	return h.DeviceServiceHandler.Bind(ctx, in, out)
 }

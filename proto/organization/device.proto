@@ -13,6 +13,7 @@ service DeviceService {
   rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
   rpc UpdateBase(ReqDeviceBase) returns (ReplyInfo) {}
   rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
+  rpc Bind(ReqDeviceBind) returns (ReplyInfo) {}
 }
 
 message DeviceInfo {
@@ -28,19 +29,18 @@ message DeviceInfo {
   string sn = 10;
   string quote = 11;
   string os = 12;
-  uint32 running = 13;
+  uint32 expiry = 13;
   string certificate = 14;
   uint32 type = 15;
+  int64 activated = 16;
 }
 
 message ReqDeviceAdd {
-  string owner = 1;
-  string name = 2;
-  string remark = 3;
-  string sn = 4;
-  string quote = 5;
-  string os = 6;
-  string operator = 7;
+  string operator = 1;
+  string owner = 2;
+  string name = 3;
+  string remark = 4;
+  string sn = 5;
 }
 
 message ReqDeviceBase {
@@ -48,6 +48,15 @@ message ReqDeviceBase {
   string name = 2;
   string remark = 3;
   string operator = 4;
+}
+
+message ReqDeviceBind{
+  string operator = 1;
+  string uid = 2;
+  string quote = 3;
+  string os = 4;
+  uint32 expiry = 5;
+  uint64 activated = 6;
 }
 
 message ReplyDeviceInfo {
