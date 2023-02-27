@@ -33,6 +33,7 @@ message DeviceInfo {
   string certificate = 14;
   uint32 type = 15;
   int64 activated = 16;
+  uint32 status = 17;
 }
 
 message ReqDeviceAdd {

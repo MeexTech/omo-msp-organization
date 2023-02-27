@@ -28,7 +28,7 @@ message AreaInfo {
   string owner = 9;
   string parent = 10;
   string template = 11;
-  string sn = 12;
+  string device = 12;
   string question = 13;
   uint32 type = 14;
   string catalog = 15;

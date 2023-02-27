@@ -67,7 +67,8 @@ message ProductInfo {
   string sn = 9;
   string template = 10;
   string catalog = 11;
-  repeated DisplayInfo displays = 12;
+  uint32 status =12;
+  repeated DisplayInfo displays = 22;
 }
 
 message ReplyStatus {
