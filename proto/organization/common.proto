@@ -68,6 +68,7 @@ message ProductInfo {
   string template = 10;
   string catalog = 11;
   uint32 status =12;
+  string device = 13;
   repeated DisplayInfo displays = 22;
 }
 
