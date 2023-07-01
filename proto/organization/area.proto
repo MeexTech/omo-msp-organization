@@ -33,6 +33,7 @@ message AreaInfo {
   uint32 type = 14;
   string catalog = 15;
   repeated string displays = 16;
+  repeated PairInfo modules = 31;
 }
 
 message ReqAreaAdd {
