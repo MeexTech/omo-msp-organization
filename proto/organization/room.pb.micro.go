@@ -40,12 +40,12 @@ type RoomService interface {
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyRoomInfo, error)
 	GetList(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyRoomList, error)
 	GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error)
-	AppendDevice(ctx context.Context, in *ReqRoomDevice, opts ...client.CallOption) (*ReplyRoomDevices, error)
-	SubtractDevice(ctx context.Context, in *ReqRoomDevice, opts ...client.CallOption) (*ReplyRoomDevices, error)
+	AppendDevice(ctx context.Context, in *ReqRoomDevice, opts ...client.CallOption) (*ReplyRoomAreas, error)
+	SubtractDevice(ctx context.Context, in *ReqRoomDevice, opts ...client.CallOption) (*ReplyRoomAreas, error)
 	UpdateQuotes(ctx context.Context, in *ReqRoomQuotes, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateDisplays(ctx context.Context, in *ReqRoomDisplays, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error)
-	GetDevices(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyRoomDevices, error)
+	GetDevices(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyRoomAreas, error)
 }
 
 type roomService struct {
@@ -120,9 +120,9 @@ func (c *roomService) GetStatistic(ctx context.Context, in *RequestFilter, opts 
 	return out, nil
 }
 
-func (c *roomService) AppendDevice(ctx context.Context, in *ReqRoomDevice, opts ...client.CallOption) (*ReplyRoomDevices, error) {
+func (c *roomService) AppendDevice(ctx context.Context, in *ReqRoomDevice, opts ...client.CallOption) (*ReplyRoomAreas, error) {
 	req := c.c.NewRequest(c.name, "RoomService.AppendDevice", in)
-	out := new(ReplyRoomDevices)
+	out := new(ReplyRoomAreas)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -130,9 +130,9 @@ func (c *roomService) AppendDevice(ctx context.Context, in *ReqRoomDevice, opts 
 	return out, nil
 }
 
-func (c *roomService) SubtractDevice(ctx context.Context, in *ReqRoomDevice, opts ...client.CallOption) (*ReplyRoomDevices, error) {
+func (c *roomService) SubtractDevice(ctx context.Context, in *ReqRoomDevice, opts ...client.CallOption) (*ReplyRoomAreas, error) {
 	req := c.c.NewRequest(c.name, "RoomService.SubtractDevice", in)
-	out := new(ReplyRoomDevices)
+	out := new(ReplyRoomAreas)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -170,9 +170,9 @@ func (c *roomService) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, o
 	return out, nil
 }
 
-func (c *roomService) GetDevices(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyRoomDevices, error) {
+func (c *roomService) GetDevices(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyRoomAreas, error) {
 	req := c.c.NewRequest(c.name, "RoomService.GetDevices", in)
-	out := new(ReplyRoomDevices)
+	out := new(ReplyRoomAreas)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -189,12 +189,12 @@ type RoomServiceHandler interface {
 	GetOne(context.Context, *RequestInfo, *ReplyRoomInfo) error
 	GetList(context.Context, *RequestFilter, *ReplyRoomList) error
 	GetStatistic(context.Context, *RequestFilter, *ReplyStatistic) error
-	AppendDevice(context.Context, *ReqRoomDevice, *ReplyRoomDevices) error
-	SubtractDevice(context.Context, *ReqRoomDevice, *ReplyRoomDevices) error
+	AppendDevice(context.Context, *ReqRoomDevice, *ReplyRoomAreas) error
+	SubtractDevice(context.Context, *ReqRoomDevice, *ReplyRoomAreas) error
 	UpdateQuotes(context.Context, *ReqRoomQuotes, *ReplyInfo) error
 	UpdateDisplays(context.Context, *ReqRoomDisplays, *ReplyInfo) error
 	UpdateByFilter(context.Context, *ReqUpdateFilter, *ReplyInfo) error
-	GetDevices(context.Context, *RequestFilter, *ReplyRoomDevices) error
+	GetDevices(context.Context, *RequestFilter, *ReplyRoomAreas) error
 }
 
 func RegisterRoomServiceHandler(s server.Server, hdlr RoomServiceHandler, opts ...server.HandlerOption) error {
@@ -205,12 +205,12 @@ func RegisterRoomServiceHandler(s server.Server, hdlr RoomServiceHandler, opts .
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyRoomInfo) error
 		GetList(ctx context.Context, in *RequestFilter, out *ReplyRoomList) error
 		GetStatistic(ctx context.Context, in *RequestFilter, out *ReplyStatistic) error
-		AppendDevice(ctx context.Context, in *ReqRoomDevice, out *ReplyRoomDevices) error
-		SubtractDevice(ctx context.Context, in *ReqRoomDevice, out *ReplyRoomDevices) error
+		AppendDevice(ctx context.Context, in *ReqRoomDevice, out *ReplyRoomAreas) error
+		SubtractDevice(ctx context.Context, in *ReqRoomDevice, out *ReplyRoomAreas) error
 		UpdateQuotes(ctx context.Context, in *ReqRoomQuotes, out *ReplyInfo) error
 		UpdateDisplays(ctx context.Context, in *ReqRoomDisplays, out *ReplyInfo) error
 		UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error
-		GetDevices(ctx context.Context, in *RequestFilter, out *ReplyRoomDevices) error
+		GetDevices(ctx context.Context, in *RequestFilter, out *ReplyRoomAreas) error
 	}
 	type RoomService struct {
 		roomService
@@ -247,11 +247,11 @@ func (h *roomServiceHandler) GetStatistic(ctx context.Context, in *RequestFilter
 	return h.RoomServiceHandler.GetStatistic(ctx, in, out)
 }
 
-func (h *roomServiceHandler) AppendDevice(ctx context.Context, in *ReqRoomDevice, out *ReplyRoomDevices) error {
+func (h *roomServiceHandler) AppendDevice(ctx context.Context, in *ReqRoomDevice, out *ReplyRoomAreas) error {
 	return h.RoomServiceHandler.AppendDevice(ctx, in, out)
 }
 
-func (h *roomServiceHandler) SubtractDevice(ctx context.Context, in *ReqRoomDevice, out *ReplyRoomDevices) error {
+func (h *roomServiceHandler) SubtractDevice(ctx context.Context, in *ReqRoomDevice, out *ReplyRoomAreas) error {
 	return h.RoomServiceHandler.SubtractDevice(ctx, in, out)
 }
 
@@ -267,6 +267,6 @@ func (h *roomServiceHandler) UpdateByFilter(ctx context.Context, in *ReqUpdateFi
 	return h.RoomServiceHandler.UpdateByFilter(ctx, in, out)
 }
 
-func (h *roomServiceHandler) GetDevices(ctx context.Context, in *RequestFilter, out *ReplyRoomDevices) error {
+func (h *roomServiceHandler) GetDevices(ctx context.Context, in *RequestFilter, out *ReplyRoomAreas) error {
 	return h.RoomServiceHandler.GetDevices(ctx, in, out)
 }

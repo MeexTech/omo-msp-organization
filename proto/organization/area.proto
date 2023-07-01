@@ -16,26 +16,6 @@ service AreaService {
   rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
 }
 
-message AreaInfo {
-  uint64 id = 1;
-  string uid = 2;
-  string name = 3;
-  uint64 created = 4;
-  uint64 updated = 5;
-  string creator = 6;
-  string operator = 7;
-  string remark = 8;
-  string owner = 9;
-  string parent = 10;
-  string template = 11;
-  string device = 12;
-  string question = 13;
-  uint32 type = 14;
-  string catalog = 15;
-  repeated string displays = 16;
-  repeated PairInfo modules = 31;
-}
-
 message ReqAreaAdd {
   string owner = 1;
   string name = 2;

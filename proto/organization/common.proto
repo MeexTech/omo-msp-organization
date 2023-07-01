@@ -25,6 +25,26 @@ message PairInfo{
   string value = 2;
 }
 
+message AreaInfo {
+  uint64 id = 1;
+  string uid = 2;
+  string name = 3;
+  uint64 created = 4;
+  uint64 updated = 5;
+  string creator = 6;
+  string operator = 7;
+  string remark = 8;
+  string owner = 9;
+  string parent = 10;
+  string template = 11;
+  string device = 12;
+  string question = 13;
+  uint32 type = 14;
+  string catalog = 15;
+  repeated string displays = 16;
+  repeated PairInfo modules = 31;
+}
+
 message RequestInfo {
   string parent = 1;
   string uid = 2;
@@ -53,28 +73,6 @@ message ReqUpdateFilter {
   string value = 4;
   string operator = 5;
   repeated string values = 6;
-}
-
-message DisplayInfo {
-  string group = 1;
-  repeated string prepares = 2;
-  repeated string showings = 3;
-}
-
-message ProductInfo {
-  uint32 type = 1;
-  string remark = 3;
-  string keywords = 4;
-  string name = 5;
-  string area = 6;
-  string question = 7;
-  string room = 8;
-  string sn = 9;
-  string template = 10;
-  string catalog = 11;
-  uint32 status =12;
-  string device = 13;
-  repeated DisplayInfo displays = 22;
 }
 
 message ReplyStatus {

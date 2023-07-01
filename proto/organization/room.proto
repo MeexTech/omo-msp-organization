@@ -11,12 +11,12 @@ service RoomService {
   rpc GetOne(RequestInfo) returns (ReplyRoomInfo) {}
   rpc GetList(RequestFilter) returns (ReplyRoomList) {}
   rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
-  rpc AppendDevice(ReqRoomDevice) returns (ReplyRoomDevices) {}
-  rpc SubtractDevice(ReqRoomDevice) returns (ReplyRoomDevices) {}
+  rpc AppendDevice(ReqRoomDevice) returns (ReplyRoomAreas) {}
+  rpc SubtractDevice(ReqRoomDevice) returns (ReplyRoomAreas) {}
   rpc UpdateQuotes(ReqRoomQuotes) returns (ReplyInfo) {}
   rpc UpdateDisplays(ReqRoomDisplays) returns (ReplyInfo) {}
   rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
-  rpc GetDevices(RequestFilter) returns (ReplyRoomDevices) {}
+  rpc GetDevices(RequestFilter) returns (ReplyRoomAreas) {}
 }
 
 message RoomInfo {
@@ -30,7 +30,7 @@ message RoomInfo {
   string owner = 8;
   string remark = 9;
   repeated string quotes = 10;
-  repeated ProductInfo areas = 11;
+  repeated AreaInfo areas = 11;
 }
 
 message RoomDisplay {
@@ -75,9 +75,9 @@ message ReqRoomDevice {
   string area = 6;
 }
 
-message ReplyRoomDevices {
+message ReplyRoomAreas {
   ReplyStatus status = 1;
-  repeated ProductInfo list = 2;
+  repeated AreaInfo list = 2;
 }
 
 message ReplyRoomInfo{

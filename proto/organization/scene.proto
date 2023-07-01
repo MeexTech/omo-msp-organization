@@ -24,7 +24,7 @@ service SceneService {
 //  rpc UpdateDisplay(ReqSceneDisplay) returns (ReplySceneDisplays) {}
   rpc UpdateParents(RequestList) returns (ReplyList) {}
   rpc UpdateSupporter(RequestFlag) returns (ReplyInfo) {}
-  rpc UpdateDomains(ReqSceneDomains) returns (ReplyInfo) {}
+  //rpc UpdateDomains(ReqSceneDomains) returns (ReplyInfo) {}
   rpc UpdateShortName(RequestFlag) returns (ReplyInfo) {}
   rpc UpdateBucket(RequestFlag) returns (ReplyInfo) {}
   rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
@@ -53,7 +53,6 @@ message SceneInfo {
   repeated string parents = 20;
   repeated string members = 21;
   repeated string questions = 23;
-  repeated ProductInfo domains = 22;
 }
 
 //message ExhibitInfo {
@@ -110,11 +109,11 @@ message ReqSceneStatus{
   string operator = 3;
 }
 
-message ReqSceneDomains{
-  string uid = 1;
-  string operator = 2;
-  repeated ProductInfo list = 3;
-}
+//message ReqSceneDomains{
+//  string uid = 1;
+//  string operator = 2;
+//  repeated ProductInfo list = 3;
+//}
 
 //message ReqSceneDisplay{
 //  string scene = 1;
