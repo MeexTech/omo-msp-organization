@@ -22,6 +22,7 @@ message ReqAreaAdd {
   string remark = 3;
   string parent = 4;
   string operator = 5;
+  string aspect = 6;
 }
 
 message ReqAreaBase {
