@@ -42,6 +42,7 @@ message AreaInfo {
   uint32 type = 14;
   string catalog = 15;
   string sn = 16;
+  string aspect = 17;
   repeated string displays = 21;
   repeated PairInfo modules = 31;
 }
