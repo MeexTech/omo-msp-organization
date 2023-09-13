@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package omo.msp.scene;
+option go_package= "proto/organization";
+import "proto/organization/common.proto";
+
+service MaintainService {
+  rpc AddOne(ReqMaintainAdd) returns (ReplyMaintainInfo) {}
+  rpc GetOne(RequestInfo) returns (ReplyMaintainInfo) {}
+  rpc GetByFilter(RequestFilter) returns (ReplyMaintainList) {}
+  rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
+  rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
+  rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
+}
+
+message MaintainInfo {
+  string uid = 1;
+  uint64 id = 2;
+  uint32 type = 3;
+  int64 created = 4;
+  string creator = 5;
+  string name = 6;
+  string remark = 7;
+  string device = 8;
+  string scene = 9;
+  string date = 10;
+  string area = 11;
+  string submitter = 12;
+}
+
+message ReqMaintainAdd{
+  string name = 1;
+  string remark = 2;
+  uint32 type = 3;
+  string scene = 4;
+  string operator = 5;
+  string date = 7;
+  string area = 8;
+  string submitter = 9;
+}
+
+message ReplyMaintainInfo {
+  ReplyStatus status = 1;
+  MaintainInfo info = 2;
+}
+
+message ReplyMaintainList {
+  ReplyStatus status = 1;
+  uint32 total = 2;
+  uint32 pages = 3;
+  uint32 page = 4;
+  uint32 number = 5;
+  repeated MaintainInfo list = 16;
+}
