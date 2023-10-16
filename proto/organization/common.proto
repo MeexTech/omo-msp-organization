@@ -43,6 +43,7 @@ message AreaInfo {
   string catalog = 15;
   string sn = 16;
   string aspect = 17;
+  uint32 limit = 18;
   repeated string displays = 21;
   repeated PairInfo modules = 31;
 }
