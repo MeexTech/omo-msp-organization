@@ -27,14 +27,13 @@ message MaintainInfo {
   string area = 11;
   string submitter = 12;
   string contacts = 13;
-  MaintainContent reason = 21;
-  MaintainContent result = 22;
-  MaintainContent suggest = 23;
-  repeated string maintainers = 31;
+  repeated MaintainContent contents = 21;
+  repeated string maintainers = 22;
 }
 
 message MaintainContent{
-  string content = 1;
+  uint32 type = 1;
+  string content = 2;
   repeated string assets = 10;
 }
 
@@ -47,6 +46,9 @@ message ReqMaintainAdd{
   string date = 7;
   string area = 8;
   string submitter = 9;
+  string contacts = 10;
+  repeated MaintainContent contents = 20;
+  repeated string maintainers = 21;
 }
 
 message ReplyMaintainInfo {
