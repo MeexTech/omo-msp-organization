@@ -26,6 +26,16 @@ message MaintainInfo {
   string date = 10;
   string area = 11;
   string submitter = 12;
+  string contacts = 13;
+  MaintainContent reason = 21;
+  MaintainContent result = 22;
+  MaintainContent suggest = 23;
+  repeated string maintainers = 31;
+}
+
+message MaintainContent{
+  string content = 1;
+  repeated string assets = 10;
 }
 
 message ReqMaintainAdd{
