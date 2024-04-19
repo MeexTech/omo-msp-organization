@@ -45,14 +45,38 @@ message AreaInfo {
   string aspect = 17;
   uint32 limit = 18;
   repeated string displays = 21;
+  DeviceInfo terminal = 25;
   repeated PairInfo modules = 31;
   repeated PairInfo sources = 32;
+}
+
+message DeviceInfo {
+  uint64 id = 1;
+  string uid = 2;
+  string name = 3;
+  uint64 created = 4;
+  uint64 updated = 5;
+  string creator = 6;
+  string operator = 7;
+  string remark = 8;
+  string owner = 9;
+  string sn = 10;
+  string quote = 11;
+  string os = 12;
+  uint32 expiry = 13;
+  string certificate = 14;
+  uint32 type = 15;
+  int64 activated = 16;
+  uint32 status = 17;
+  string meta = 18;
+  PairInfo auto = 19;
 }
 
 message RequestInfo {
   string parent = 1;
   string uid = 2;
   string operator = 3;
+  uint32 flag = 4;
 }
 
 message RequestPage{
@@ -67,6 +91,7 @@ message RequestFilter {
   string value = 3;
   uint32 page = 4;
   uint32 number = 5;
+  uint32 flag = 7;
   repeated string list = 6;
 }
 
