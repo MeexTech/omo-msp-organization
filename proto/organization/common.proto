@@ -45,6 +45,7 @@ message AreaInfo {
   string aspect = 17;
   uint32 limit = 18;
   repeated string displays = 21;
+  repeated string assets = 22;
   DeviceInfo terminal = 25;
   repeated PairInfo modules = 31;
   repeated PairInfo sources = 32;

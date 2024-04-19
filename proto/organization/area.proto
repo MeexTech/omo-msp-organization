@@ -23,6 +23,7 @@ message ReqAreaAdd {
   string parent = 4;
   string operator = 5;
   string aspect = 6;
+  repeated string assets = 15;
 }
 
 message ReqAreaBase {
