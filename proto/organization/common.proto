@@ -44,6 +44,7 @@ message AreaInfo {
   string sn = 16;
   string aspect = 17;
   uint32 limit = 18;
+  uint32 upgrade = 19;
   repeated string displays = 21;
   repeated string assets = 22;
   DeviceInfo terminal = 25;
