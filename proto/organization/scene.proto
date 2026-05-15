@@ -48,6 +48,7 @@ message SceneInfo {
   string short = 15;
   AddressInfo address = 16;
   string supporter = 17;
+  ThemeInfo theme = 18;
   string bucket = 19;
   uint32 limit = 24;
   repeated string parents = 20;
